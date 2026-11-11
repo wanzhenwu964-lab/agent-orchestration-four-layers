@@ -1,0 +1,2912 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>如何在AI时代成功转型？ · 吴婉祯｜DeckGist</title>
+<style>
+
+
+:root {
+  --paper: #191824; --stage: #101018;
+  --stage-bg: radial-gradient(ellipse at 78% -8%, #2a2038 0%, #14121c 48%, #101018 100%);
+  --ink: #E8E6F0; --title: #F5F4FA; --mute: #B4B1C4;
+  --accent: #FF4D2E; --card: #242330; --chip-bg: #2A2838;
+  --line: rgba(255,255,255,.12); --pola: transparent;
+  --pola-shadow: none;
+  --tape: transparent; --dash: rgba(255,77,46,.35);
+  --ph-bg: #242330;
+  --bar-bg: rgba(16,14,24,.94); --notes-bg: rgba(28,26,40,.96);
+  --dot: rgba(255,255,255,.28); --deck-shadow: 0 24px 56px rgba(0,0,0,.45);
+  --card-shadow: 0 12px 32px rgba(0,0,0,.28);
+  --paper-tex: none;
+  --font: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", ui-sans-serif, sans-serif;
+  --radius: 28px;
+  --lib-ease: cubic-bezier(.22, .25, .08, 1);
+  --blue: #3B6CFF; --purple: #6A56F6; --coral: #FF6A4A; --navy: #1C2438;
+}
+h1, h2, .hero-ans .punch { font-family: var(--font); letter-spacing: -.03em; }
+.script {
+  font-family: var(--font);
+  color: var(--accent); font-size: clamp(16px, 1.8vw, 22px); font-weight: 700;
+  letter-spacing: .12em;
+}
+.cover-card {
+  background: transparent;
+  clip-path: none;
+  border-radius: 0;
+  box-shadow: none;
+  border: 0;
+}
+.cover-card h1 { color: var(--title); }
+.cover-card .meta { color: var(--mute); margin-top: .5rem; font-size: clamp(13px, 1.3vw, 16px); }
+.slide.qpage { background: transparent; }
+.torn-note {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 1.15rem 1.25rem; position: relative;
+  box-shadow: 0 12px 24px rgba(26,39,64,.08);
+}
+.torn-note::before {
+  content: ""; position: absolute; left: 18%; top: -9px; width: 62px; height: 18px;
+  background: rgba(196,120,90,.5); transform: rotate(4deg);
+}
+.pics .pic:nth-child(even) { --rot: 0deg; }
+.pics .pic:nth-child(3n) { --rot: 0deg; }
+.deco-blob {
+  position: absolute; width: 180px; height: 18px;
+  background: rgba(196,120,90,.4); transform: rotate(-8deg);
+  pointer-events: none; z-index: 0;
+}
+
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; font-family: var(--font); color: var(--ink); background: var(--stage); }
+.stage { width: 100vw; height: 100vh; display: grid; place-items: center; background: var(--stage-bg); }
+.deck {
+  position: relative;
+  width: min(100vw - 24px, calc((100vh - 64px) * 16 / 9));
+  aspect-ratio: 16 / 9;
+  background: var(--paper);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--deck-shadow);
+}
+.deck::before { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0; background: var(--paper-tex); }
+.slide {
+  position: absolute; inset: 0;
+  display: none;
+  flex-direction: column;
+  padding: 3.2% 3.8% 6.6%;
+  min-height: 0;
+  z-index: 1;
+  gap: .4rem;
+}
+.slide.active { display: flex; animation: fadein .45s ease; }
+
+.qcard { padding: .6rem .75rem; }
+.qcard h3 { font-size: clamp(22px, 1.6vw, 30px); }
+.qcard p { font-size: clamp(18px, 1.4vw, 26px); }
+.explain { font-size: clamp(20px, 1.4vw, 26px); }
+.hero-q h1 { font-size: clamp(46px, 5.4vw, 88px); max-width: 14em; }
+.hero-ans .punch { font-size: clamp(44px, 5vw, 84px); }
+.pic.shot { background: transparent; padding: 0; transform: none; box-shadow: none; }
+.pic.shot img { object-fit: contain; background: transparent; height: 100%; }
+.slide.projects .qgrid { flex: 0.62; }
+.slide.projects .shot-row { flex: 1; min-height: 0; }
+.cover-card .meta { font-size: clamp(20px, 1.45vw, 28px); }
+.cover-card h1 { font-size: clamp(50px, 5.6vw, 92px); }
+strong { font-weight: 800; }
+
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+.kicker { font-size: clamp(16px, 1.25vw, 20px); letter-spacing: .14em; color: var(--accent); font-weight: 700; }
+h1 { font-size: clamp(46px, 5.2vw, 86px); line-height: 1.06; font-weight: 800; color: var(--title); letter-spacing: -.04em; }
+h2 { font-size: clamp(38px, 4.1vw, 70px); line-height: 1.08; font-weight: 800; color: var(--title); letter-spacing: -.035em; }
+.lead { font-size: clamp(24px, 1.7vw, 32px); color: var(--ink); line-height: 1.38; max-width: 46em; }
+.tiny { font-size: clamp(18px, 1.25vw, 22px); color: var(--ink); line-height: 1.4; opacity: .88; }
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.chip {
+  background: var(--chip-bg); border: 1px solid var(--line); color: var(--title);
+  border-radius: 999px; padding: .28rem .7rem; font-size: clamp(16px, 1.15vw, 20px);
+}
+.pic {
+  position: relative; display: block; width: 100%; height: 100%;
+  padding: 0; border: 0; background: var(--card); cursor: zoom-in;
+  overflow: hidden; border-radius: 4px;
+}
+.pic img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; pointer-events: none; }
+.pic .cap {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: .28rem .45rem;
+  background: linear-gradient(transparent, rgba(70,42,32,.45));
+  color: #fffaf4; font-size: clamp(10px, 1.05vw, 12px);
+}
+.pic.pola {
+  background: transparent;
+  padding: 0;
+  border-radius: 18px;
+  box-shadow: none;
+  transform: none;
+}
+.pic.pola img { height: calc(100% - 2px); border-radius: 2px; }
+.pic.pola .cap {
+  background: none; color: var(--title); text-align: center; bottom: 3px; font-weight: 600;
+}
+.pic .tape {
+  position: absolute; top: -9px; left: 50%; width: 48px; height: 16px;
+  transform: translateX(-50%) rotate(-6deg);
+  background: var(--tape); box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
+  z-index: 3; pointer-events: none;
+}
+.pics { display: grid; gap: .55rem; flex: 1; min-height: 0; }
+.g23 { grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr; }
+.g13 { grid-template-columns: 1fr 1fr 1fr; }
+.g12 { grid-template-columns: 1fr 1fr; }
+.g22 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+.split { display: grid; grid-template-columns: 1.05fr .95fr; gap: 1.1rem; flex: 1; min-height: 0; }
+.side { display: flex; flex-direction: column; gap: .45rem; min-width: 0; justify-content: center; }
+.qgrid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .7rem; flex: 1; min-height: 0; align-items: stretch; }
+.qcard {
+  background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+  padding: .8rem .9rem; min-height: 0; position: relative;
+  box-shadow: var(--card-shadow);
+}
+.qcard h3 { color: var(--title); font-size: clamp(22px, 1.6vw, 30px); margin-bottom: .3rem; }
+.qcard p { color: var(--ink); font-size: clamp(18px, 1.4vw, 26px); line-height: 1.4; }
+.ph {
+  border: 2px dashed var(--dash); background: var(--ph-bg);
+  border-radius: 14px; display: flex; flex-direction: column; justify-content: center;
+  padding: .85rem; color: var(--title); min-height: 0;
+}
+.ph p { margin-top: .3rem; font-size: clamp(11px, 1.15vw, 13px); color: var(--mute); }
+.explain { font-size: clamp(20px, 1.4vw, 26px); background: var(--chip-bg); border-left: 3px solid var(--accent); padding: .4rem .7rem; color: var(--ink); line-height: 1.4; }
+.slide.cover { padding: 0; }
+.cover-copy { position: absolute; left: 5%; top: 50%; transform: translateY(-54%); z-index: 2; width: min(46%, 540px); }
+.cover-photo { position: absolute; top: 0; right: 0; bottom: 0; width: 54%; z-index: 1; }
+.cover-photo .pic { height: 100%; border-radius: 0; box-shadow: none; background: transparent; padding: 0; transform: none; }
+.cover-photo .pic img {
+  object-fit: cover; object-position: 62% 16%;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.cover-photo .veil {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, var(--paper) 0%, rgba(255,255,255,0) 46%);
+}
+.cover-card { position: relative; padding: 8% 9% 9%; }
+.sticker {
+  position: absolute; padding: .32rem .65rem; border: 2px dashed var(--accent);
+  background: var(--chip-bg); color: var(--accent); font-weight: 800;
+  border-radius: 42% 32% 44% 36%; transform: rotate(-8deg);
+  font-size: clamp(12px, 1.3vw, 16px); z-index: 2; pointer-events: none;
+}
+.hero-q { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.hero-q h1 { font-size: clamp(46px, 5.4vw, 88px); max-width: 14em; }
+.hero-ans { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: .7rem; }
+.hero-ans .punch { font-size: clamp(36px, 3.8vw, 64px); color: var(--title); font-weight: 800; }
+.vid-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .75rem; flex: 1; min-height: 0; }
+.vid-card { display: flex; flex-direction: column; min-height: 0; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: .6rem .7rem .7rem; }
+.vid-card h3 { font-size: clamp(14px, 1.4vw, 17px); color: var(--title); margin-bottom: .15rem; }
+.vid-wrap { position: relative; flex: 1; min-height: 0; background: #12121A; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.vid-wrap video { width: 100%; height: 100%; object-fit: contain; background: #12121A; }
+.vid-fallback { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: .45rem; padding: .7rem; font-size: clamp(11px, 1.15vw, 13px); color: var(--title); background: rgba(20,18,30,.92); }
+.vid-wrap.ready .vid-fallback { display: none; }
+.vid-fallback input { margin-top: .2rem; }
+.steps { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; flex: 1; min-height: 0; }
+.bar {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 40px; z-index: 8;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 .9rem; background: var(--bar-bg); border-top: 1px solid var(--line);
+  font-size: 11px; color: var(--mute); gap: .6rem;
+}
+.bar a { color: var(--accent); }
+.nav { display: flex; align-items: center; gap: .35rem; }
+.nav button {
+  background: var(--chip-bg); border: 1px solid var(--line); color: var(--title);
+  border-radius: 8px; padding: .22rem .55rem; cursor: pointer; font-size: 12px; font-family: inherit;
+}
+.dots { display: flex; gap: 5px; flex-wrap: wrap; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--dot); border: 0; padding: 0; cursor: pointer; }
+.dot.on { background: var(--accent); transform: scale(1.2); }
+.notes {
+  display: none; position: absolute; left: 3%; right: 3%; bottom: 48px; z-index: 9;
+  background: var(--notes-bg); border: 1px solid var(--line); border-radius: 10px;
+  padding: .55rem .75rem; font-size: 12px; color: var(--ink); line-height: 1.45;
+  max-height: 28%; overflow: auto;
+}
+.notes.show { display: block; }
+#lightbox {
+  position: fixed; inset: 0; background: rgba(8,6,16,.82); z-index: 40;
+  display: none; align-items: center; justify-content: center;
+}
+#lightbox.show { display: flex; }
+#lightbox figure { max-width: 92vw; max-height: 88vh; text-align: center; }
+#lightbox img { max-width: 92vw; max-height: 80vh; object-fit: contain; border-radius: 6px; background: transparent; }
+#lightbox figcaption { color: #fffaf4; margin-top: .4rem; font-size: 14px; }
+.lb-btn {
+  position: absolute; background: rgba(255,250,244,.92); border: 0; border-radius: 999px;
+  width: 42px; height: 42px; font-size: 24px; cursor: pointer; color: #5a3228;
+}
+.lb-close { top: 18px; right: 18px; }
+.lb-prev { left: 18px; top: 50%; transform: translateY(-50%); }
+.lb-next { right: 18px; top: 50%; transform: translateY(-50%); }
+
+.memo-panel {
+  position: fixed; left: 0; top: 0; bottom: 0;
+  width: min(380px, 36vw);
+  z-index: 22;
+  display: none;
+  flex-direction: column;
+  gap: .45rem;
+  padding: 16px 16px 18px;
+  background:
+    linear-gradient(180deg, #1c1b28 0%, #15141f 100%);
+  border-right: 1px solid rgba(255,255,255,.08);
+  box-shadow: 8px 0 28px rgba(0,0,0,.35);
+  color: var(--title);
+  font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+}
+.memo-panel.open { display: flex; }
+.memo-panel::before {
+  content: "";
+  position: absolute; top: 14px; left: 28%;
+  width: 72px; height: 16px;
+  background: rgba(196,120,90,.45);
+  transform: rotate(-6deg);
+  pointer-events: none;
+}
+.memo-head { display: flex; align-items: baseline; justify-content: space-between; gap: .5rem; margin-top: 14px; }
+.memo-head strong { font-size: 16px; }
+.memo-head span { font-size: 12px; color: #5c6576; }
+.memo-hint { font-size: 12px; color: #5c6576; line-height: 1.45; }
+.memo-status { font-size: 12px; min-height: 1.2em; color: var(--title); }
+.memo-status.err { color: #9a3b2f; }
+.memo-panel textarea {
+  flex: 1; min-height: 160px; resize: vertical;
+  border: 1px dashed rgba(196,120,90,.55);
+  border-radius: 10px;
+  background: #12121A;
+  color: var(--title);
+  padding: .7rem .75rem;
+  font: 15px/1.5 "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+}
+.memo-script {
+  max-height: 22vh; overflow: auto;
+  background: rgba(255,255,255,.7);
+  border: 1px solid rgba(26,39,64,.08);
+  border-radius: 8px;
+  padding: .5rem .65rem;
+  font-size: 12px; line-height: 1.45; color: #243044;
+}
+.memo-panel details { font-size: 12px; color: #5c6576; }
+.memo-panel summary { cursor: pointer; user-select: none; }
+.memo-actions { display: flex; flex-wrap: wrap; gap: .35rem; align-items: center; }
+.memo-actions button, .memo-actions label {
+  background: var(--chip-bg); border: 1px solid var(--line); color: var(--title);
+  border-radius: 8px; padding: .28rem .55rem; cursor: pointer;
+  font-size: 12px; font-family: inherit;
+}
+.memo-actions input[type=file] { display: none; }
+
+.stage.rail-open { padding-left: var(--rail-w, 268px); box-sizing: border-box; }
+.stage.rail-toc { --rail-w: 268px; }
+.stage.rail-memo { --rail-w: min(380px, 36vw); }
+.stage.rail-open .deck {
+  width: min(calc(100vw - 24px - var(--rail-w, 268px)), calc((100vh - 64px) * 16 / 9));
+}
+.toc-panel {
+  position: fixed; left: 0; top: 0; bottom: 0;
+  width: 268px; z-index: 21;
+  display: none; flex-direction: column;
+  padding: 16px 12px 14px;
+  background: linear-gradient(180deg, #1c1b28 0%, #15141f 100%);
+  border-right: 1px solid rgba(255,255,255,.08);
+  box-shadow: 8px 0 28px rgba(0,0,0,.35);
+  color: var(--title);
+  font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+}
+.toc-panel.open { display: flex; }
+.toc-panel::before {
+  content: ""; position: absolute; top: 12px; left: 22%;
+  width: 64px; height: 14px; background: rgba(196,120,90,.42);
+  transform: rotate(-7deg); pointer-events: none;
+}
+.toc-head { display: flex; align-items: center; justify-content: space-between; margin: 12px 4px 8px; }
+.toc-head strong { font-size: 16px; }
+.toc-head button {
+  background: var(--chip-bg); border: 1px solid var(--line); color: var(--title);
+  border-radius: 8px; padding: .2rem .5rem; cursor: pointer; font-size: 12px; font-family: inherit;
+}
+.toc-list { flex: 1; overflow: auto; display: flex; flex-direction: column; gap: 2px; padding-right: 4px; }
+.toc-item {
+  display: flex; align-items: baseline; gap: .4rem;
+  width: 100%; text-align: left; border: 0; cursor: pointer;
+  background: transparent; color: var(--ink);
+  border-radius: 8px; padding: .42rem .5rem;
+  font-size: 13px; line-height: 1.35; font-family: inherit;
+}
+.toc-item .n { flex: none; color: var(--accent); font-weight: 700; min-width: 1.4em; }
+.toc-item:hover { background: rgba(196,120,90,.12); }
+.toc-item.on { background: rgba(196,120,90,.24); font-weight: 700; }
+
+
+
+.title-only h2 { margin-bottom: .35rem; }
+.food-grid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: .32rem;
+  flex: 1; min-height: 0;
+}
+.food-row {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: .32rem;
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+}
+.food-row .pic {
+  height: 100%;
+  width: auto;
+  aspect-ratio: 3 / 4;
+  flex: 0 0 auto;
+}
+.food-row .pic.food-sq { aspect-ratio: 1 / 1; }
+.food-row .pic img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  background: transparent;
+}
+.office-grid {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: .38rem;
+  flex: 1; min-height: 0;
+  width: 100%;
+}
+.office-cell {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  gap: .12rem;
+  flex: var(--fw, 0.75) 1 0;
+}
+.office-cell .pic {
+  width: 100%;
+  height: auto;
+  aspect-ratio: var(--ar, 3 / 4);
+}
+.office-grid .pic.shot img {
+  object-fit: contain;
+  background: transparent;
+}
+.img-note-open {
+  border: 0; background: transparent; color: var(--mute);
+  font-size: 12px; cursor: pointer; padding: 0 .1rem; text-align: left;
+  font-family: inherit; text-decoration: underline; text-underline-offset: 2px;
+  align-self: flex-start; line-height: 1.2;
+}
+.lb-note-wrap { max-width: 92vw; margin: .4rem auto 0; text-align: left; }
+.lb-note-wrap label { display: block; color: #fffaf4; font-size: 13px; margin-bottom: .25rem; }
+.lb-note-wrap textarea {
+  width: 100%; min-height: 72px; resize: vertical;
+  border-radius: 8px; border: 1px solid rgba(255,250,243,.35);
+  background: rgba(28,26,40,.96); color: var(--title);
+  padding: .5rem .65rem;
+  font: 15px/1.45 "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+}
+#lightbox.has-img-note img { max-height: 66vh; }
+.beta-pics {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: .45rem;
+  min-height: 0;
+  height: 100%;
+}
+.beta-pics .pic {
+  height: 100%;
+  width: auto;
+  flex: 0 0 auto;
+}
+.beta-pics .pic:first-child { aspect-ratio: 1080 / 1920; }
+.beta-pics .pic:last-child { aspect-ratio: 1260 / 2800; }
+.beta-pics .pic.shot img { object-fit: contain; background: transparent; }
+
+.share-pics { display: grid; grid-template-rows: .72fr 1.28fr; gap: .5rem; min-height: 0; flex: 1; }
+.share-pics .pic.shot img { object-fit: contain; background: transparent; }
+
+.model-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .8rem; flex: 1; min-height: 0; }
+.model-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+  padding: .85rem .9rem; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: .45rem; box-shadow: var(--card-shadow); text-align: center;
+}
+.model-card img { width: min(42%, 160px); aspect-ratio: 1; object-fit: contain; border-radius: 22%; box-shadow: 0 8px 18px rgba(26,39,64,.08); }
+.model-card .prod { font-size: clamp(22px, 1.7vw, 30px); font-weight: 800; color: var(--title); }
+.model-card .arrow { color: var(--accent); width: 1.35em; height: 1.35em; display: flex; align-items: center; justify-content: center; }
+.model-card .arrow svg { width: 100%; height: 100%; display: block; }
+.model-card .mod { font-size: clamp(20px, 1.55vw, 28px); font-weight: 800; color: var(--ink); }
+.tag-v, .tag-i {
+  border-radius: 999px; padding: .18rem .7rem; font-size: clamp(14px, 1.1vw, 18px); font-weight: 700;
+}
+.tag-v { background: rgba(255,255,255,.22); color: #fff; }
+.tag-i { background: rgba(255,255,255,.22); color: #fff; }
+.four-points { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; flex: 1; min-height: 0; }
+.basic-split {
+  display: grid;
+  grid-template-columns: minmax(0, 38%) minmax(0, 62%);
+  gap: .7rem;
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+.basic-split .four-points {
+  gap: .4rem;
+  flex: none;
+  height: 100%;
+  min-height: 0;
+}
+.basic-split .four-points .qcard { padding: .5rem .55rem; min-height: 0; overflow: hidden; }
+.basic-split .four-points h3 { font-size: clamp(17px, 1.4vw, 24px); margin-bottom: .18rem; }
+.basic-split .four-points p { font-size: clamp(15px, 1.25vw, 21px); line-height: 1.38; }
+.basic-shot { min-width: 0; min-height: 0; }
+.basic-shot .pic { height: 100%; }
+.basic-shot .pic.shot img { object-fit: contain; object-position: center; background: transparent; }
+.vibe-grid {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: .4rem;
+  flex: 1; min-height: 0;
+}
+.vibe-grid .pic {
+  height: 100%;
+  width: auto;
+  aspect-ratio: 1080 / 2412;
+  flex: 0 0 auto;
+}
+.vibe-grid .pic.shot img { object-fit: contain; background: transparent; }
+.vibe-foot { font-size: clamp(20px, 1.55vw, 28px); color: var(--ink); line-height: 1.4; }
+.code-hero {
+  background:
+    linear-gradient(180deg, rgba(26,39,64,.58), rgba(26,39,64,.66)),
+    url("assets/code-bg.jpg") center/cover no-repeat;
+}
+.code-hero .hero-ans { align-items: center; text-align: center; }
+.code-hero .punch { color: #fffaf3; text-shadow: 0 2px 18px rgba(0,0,0,.35); font-size: clamp(42px, 4.4vw, 72px); }
+.ask-next { display: grid; grid-template-columns: 1fr 1fr; gap: .45rem; margin-top: .35rem; }
+.ask-next span {
+  background: var(--chip-bg); border: 1px solid var(--line); border-radius: 12px;
+  padding: .45rem .65rem; font-size: clamp(16px, 1.25vw, 22px); color: var(--title); font-weight: 700;
+}
+.edu-row {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: .45rem;
+  flex: 1.15; min-height: 0;
+}
+.edu-row .pic {
+  height: 100%;
+  width: auto;
+  aspect-ratio: var(--ar, 3 / 4);
+  flex: 0 0 auto;
+}
+.edu-row .pic.shot img { object-fit: contain; background: transparent; }
+.edu-note { font-size: clamp(16px, 1.2vw, 20px); color: var(--mute); }
+.q3-mini { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: .45rem; }
+.q3-mini .qcard { padding: .45rem .55rem; }
+.q3-mini h3 { font-size: clamp(15px, 1.15vw, 18px); margin-bottom: .15rem; }
+.q3-mini p { font-size: clamp(13px, 1.05vw, 16px); line-height: 1.35; }
+.kw-row { display: flex; flex-wrap: wrap; gap: .4rem; margin: .15rem 0 .25rem; }
+.kw-row .chip { font-size: clamp(15px, 1.15vw, 20px); }
+.stack-wrap { position: relative; flex: 1; min-height: 0; }
+.stack-card {
+  position: absolute; left: 0; right: 8%;
+  background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+  padding: .7rem .95rem .75rem;
+  box-shadow: 0 12px 28px rgba(26,39,64,.12);
+}
+.stack-card:nth-child(1) { top: 0; z-index: 1; }
+.stack-card:nth-child(2) { top: 23%; left: 3%; right: 5%; z-index: 2; }
+.stack-card:nth-child(3) { top: 46%; left: 6%; right: 2%; z-index: 3; }
+.stack-card:nth-child(4) { top: 69%; left: 9%; right: 0; z-index: 4; }
+.stack-card h3 { color: var(--accent); font-size: clamp(20px, 1.5vw, 28px); margin-bottom: .2rem; }
+.stack-card p { font-size: clamp(16px, 1.25vw, 22px); line-height: 1.38; color: var(--ink); }
+.proj-actions { display: flex; gap: .4rem; margin-top: .45rem; flex-wrap: wrap; }
+.proj-btn {
+  background: #1A2740; color: #fffaf3; border: 0; border-radius: 8px;
+  padding: .35rem .7rem; cursor: pointer; font-size: clamp(14px, 1.15vw, 18px); font-family: inherit;
+}
+.proj-overlay {
+  display: none; position: fixed; inset: 0; z-index: 45;
+  background: rgba(26,39,64,.82); flex-direction: column;
+}
+.proj-overlay.show { display: flex; }
+.proj-overlay header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .55rem 1rem; color: #fffaf3; gap: 1rem;
+}
+.proj-overlay header strong { font-size: 16px; }
+.proj-overlay header button {
+  background: #fffaf3; border: 0; border-radius: 8px; padding: .3rem .75rem; cursor: pointer; font-family: inherit;
+}
+.proj-overlay iframe { flex: 1; width: 100%; border: 0; background: #fff; }
+.proj-overlay .hint { color: rgba(255,250,243,.8); font-size: 12px; padding: 0 1rem .45rem; }
+
+
+/* 无图注的拍立得不再留出底部空标题条，避免“大框小图” */
+.pic.pola:not(:has(.cap)),
+.pic.shot:not(:has(.cap)) { padding: 6px; }
+.pic.pola:not(:has(.cap)) img,
+.pic.shot:not(:has(.cap)) img { height: 100%; }
+
+/* 小面积彩色标识：参考 Superlist 的圆角色块 + 简洁几何，不改整体配色，不复制其 logo/文案 */
+.kicker { display: flex; align-items: center; gap: .45rem; }
+.kicker::before {
+  content: "";
+  width: .52em; height: .52em;
+  border-radius: .16em;
+  background: var(--accent);
+  flex: none;
+}
+.chip { display: inline-flex; align-items: center; gap: .38rem; }
+.chip::before {
+  content: "";
+  width: .48em; height: .48em;
+  border-radius: .14em;
+  background: var(--accent);
+  flex: none;
+}
+.kw-row .chip:nth-child(2)::before { background: #7A8FB0; }
+.kw-row .chip:nth-child(3)::before { background: #C4A35A; }
+.kw-row .chip:nth-child(4)::before { background: #7A9A78; }
+.kw-row .chip:nth-child(5)::before { background: #B07A8A; }
+.kw-row .chip:nth-child(6)::before { background: #6B8E9F; }
+.ico-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15em; height: 1.15em;
+  border-radius: .32em;
+  flex: none;
+  margin-right: .38em;
+  vertical-align: -0.16em;
+}
+.ico-mark svg { width: .72em; height: .72em; display: block; }
+.ico-c1 { background: #E8A090; color: #7A3A2A; }
+.ico-c2 { background: #C5D4E8; color: #1A2740; }
+.ico-c3 { background: #E8D4A8; color: #6A5420; }
+.ico-c4 { background: #C9D9C6; color: #2F4A32; }
+.qcard h3 { display: flex; align-items: center; }
+.basic-split .four-points .ico-mark { width: 1.05em; height: 1.05em; margin-right: .28em; }
+.img-note-open {
+  display: inline-flex;
+  align-items: center;
+  gap: .22rem;
+}
+.img-note-open svg { width: 12px; height: 12px; flex: none; color: #8a6a58; }
+
+
+/* 第2页：先看看下班后的天空 — 左三右一，按原图比例 contain，不裁切 */
+.sky-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+.sky-left {
+  flex: 0.65 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: .32rem;
+  min-width: 0;
+  max-height: 100%;
+}
+.sky-left > .pic {
+  width: 100%;
+  height: auto;
+  aspect-ratio: var(--ar, 3 / 2);
+}
+.sky-left-bottom {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: .32rem;
+  min-height: 0;
+}
+.sky-left-bottom > .pic {
+  flex: var(--fw, 1) 1 0;
+  min-width: 0;
+  height: auto;
+  aspect-ratio: var(--ar, 4 / 3);
+}
+.sky-left-bottom > .pic:first-child { --fw: 1.333; }
+.sky-left-bottom > .pic:last-child { --fw: 0.75; }
+.sky-main {
+  flex: 1 1 0;
+  min-width: 0;
+  max-height: 100%;
+  height: auto;
+  aspect-ratio: var(--ar, 4 / 3);
+}
+.sky-layout .pic {
+  background: #fff;
+  box-shadow: var(--pola-shadow);
+  border-radius: 18px;
+}
+.sky-layout .pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  background: transparent;
+}
+
+/* ===== Superlist 视觉机制：超大粗标题、橙红关键词、蓝紫珊瑚大面板、产品窗口、不对称栅格 ===== */
+.deck { border-radius: 24px; background: var(--paper); }
+.deck::before { display: none !important; }
+.deco-blob,
+.pic .tape,
+.sticker,
+.torn-note::before,
+.cover-photo .veil { display: none !important; }
+.hl { color: var(--accent); }
+
+.kicker { color: var(--accent); letter-spacing: .16em; text-transform: none; }
+.kicker::before { background: var(--accent); }
+
+/* 产品窗口条 */
+.win {
+  display: flex; flex-direction: column;
+  min-height: 0; flex: 1;
+  background: #0E1018;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 22px 40px rgba(16,12,36,.18);
+}
+.win-bar {
+  flex: none; height: 28px;
+  display: flex; align-items: center; gap: 6px;
+  padding: 0 12px;
+  background: #2A2D3A;
+}
+.win-bar i { width: 8px; height: 8px; border-radius: 50%; display: block; background: #8D909C; }
+.win-bar i:nth-child(1) { background: #FF5F57; }
+.win-bar i:nth-child(2) { background: #FEBC2E; }
+.win-bar i:nth-child(3) { background: #28C840; }
+.win > .pic, .win iframe { flex: 1; min-height: 0; border-radius: 0; }
+
+/* 封面：深色底 + 克制紫红光晕；人物照大幅铺右侧，mask 向左透明融入，无相框/窗口条 */
+.slide.cover {
+  padding: 0;
+  background:
+    radial-gradient(ellipse 58% 72% at 82% 38%, rgba(138, 56, 196, .30), transparent 58%),
+    radial-gradient(ellipse 42% 50% at 92% 12%, rgba(220, 48, 90, .18), transparent 52%),
+    var(--paper);
+}
+.cover-copy { left: 5.2%; width: min(46%, 620px); transform: translateY(-50%); top: 50%; }
+.cover-card { background: transparent !important; border: 0 !important; box-shadow: none !important; padding: 0; }
+.cover-photo {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 58%;
+  z-index: 1;
+  display: block;
+}
+.cover-photo .pic {
+  width: 100%; height: 100%;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+.cover-photo .pic img {
+  object-fit: cover;
+  object-position: 62% 16%;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.25) 18%, #000 40%, #000 100%);
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.25) 18%, #000 40%, #000 100%);
+}
+.cover-fade {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 42%;
+  pointer-events: none;
+  background: linear-gradient(to right, var(--paper) 0%, rgba(25,24,36,.55) 38%, transparent 100%);
+}
+.slide.cover .cover-copy { z-index: 3; }
+
+/* 彩色大面板承托图像：循环蓝 / 紫 / 珊瑚 / 海军 */
+.pic.pola, .pic.shot, .sky-layout .pic {
+  transform: none;
+  background: var(--blue);
+  padding: 10px;
+  border-radius: 24px;
+  box-shadow: none;
+}
+.pic.pola img, .pic.shot img, .sky-layout .pic img {
+  height: 100%; border-radius: 14px; background: transparent;
+  object-fit: contain;
+}
+.office-cell:nth-child(1) .pic { background: var(--blue); }
+.office-cell:nth-child(2) .pic { background: var(--purple); }
+.office-cell:nth-child(3) .pic { background: var(--coral); }
+.office-cell:nth-child(4) .pic { background: var(--navy); }
+.sky-left > .pic { background: var(--blue); }
+.sky-left-bottom > .pic:first-child { background: var(--purple); }
+.sky-left-bottom > .pic:last-child { background: var(--coral); }
+.sky-main { background: var(--purple); padding: 14px; }
+.food-row:first-child .pic:nth-child(odd) { background: var(--blue); }
+.food-row:first-child .pic:nth-child(even) { background: var(--purple); }
+.food-row:last-child .pic:nth-child(1) { background: var(--coral); }
+.food-row:last-child .pic:nth-child(2) { background: var(--navy); }
+.food-row:last-child .pic:nth-child(3) { background: var(--blue); }
+.vibe-grid .pic:nth-child(1) { background: var(--blue); }
+.vibe-grid .pic:nth-child(2) { background: var(--purple); }
+.vibe-grid .pic:nth-child(3) { background: var(--coral); }
+.vibe-grid .pic:nth-child(4) { background: var(--navy); }
+.edu-row .pic:nth-child(1) { background: var(--blue); }
+.edu-row .pic:nth-child(2) { background: var(--purple); }
+.edu-row .pic:nth-child(3) { background: var(--coral); }
+.beta-pics .pic:first-child { background: var(--blue); }
+.beta-pics .pic:last-child { background: var(--purple); }
+.share-pics .pic:first-child { background: var(--purple); }
+.share-pics .pic:last-child { background: var(--navy); }
+.g12 .pic:first-child { background: var(--blue); }
+.g12 .pic:last-child { background: var(--coral); }
+
+.sky-layout .pic { box-shadow: none; }
+
+/* 模型页：三张实色大卡 */
+.model-card {
+  background: var(--blue);
+  color: #fff;
+  border: 0;
+  border-radius: 28px;
+  box-shadow: none;
+}
+.model-grid .model-card:nth-child(1) { background: var(--blue); }
+.model-grid .model-card:nth-child(2) { background: var(--purple); }
+.model-grid .model-card:nth-child(3) { background: var(--coral); }
+.model-card .prod, .model-card .mod { color: #fff; }
+.model-card .arrow { color: #fff; }
+.model-card img {
+  background: #fff;
+  padding: 10px;
+  border-radius: 22px;
+  box-shadow: none;
+}
+
+/* 基础工作四卡：实色面板 + 右侧窗口化截图 */
+.basic-split .four-points .qcard { border: 0; box-shadow: none; color: #fff; }
+.basic-split .four-points .qcard h3,
+.basic-split .four-points .qcard p { color: #fff; }
+.basic-split .four-points .qcard:nth-child(1) { background: var(--blue); }
+.basic-split .four-points .qcard:nth-child(2) { background: var(--purple); }
+.basic-split .four-points .qcard:nth-child(3) { background: var(--coral); }
+.basic-split .four-points .qcard:nth-child(4) { background: var(--navy); }
+.basic-split .four-points .ico-mark { background: rgba(255,255,255,.22); color: #fff; }
+.basic-shot {
+  background: var(--blue);
+  border-radius: 28px;
+  padding: 14px;
+  display: flex; flex-direction: column; min-height: 0;
+}
+.basic-shot .win { flex: 1; min-height: 0; }
+.basic-shot .pic { background: #111; padding: 0; border-radius: 0; }
+.basic-shot .pic img { object-fit: contain; background: #111; border-radius: 0; }
+
+.qcard, .vid-card, .stack-card {
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--card-shadow);
+  border: 0;
+  color: var(--ink);
+}
+.nav button, .proj-btn { border-radius: 999px; font-weight: 700; }
+.proj-btn {
+  background: var(--title);
+  color: #fff;
+  border: 0;
+  padding: .4rem .95rem;
+  cursor: pointer;
+  font-size: clamp(13px, 1.05vw, 16px);
+  font-family: inherit;
+}
+.ask-next span {
+  border-radius: 18px;
+  background: var(--card);
+  box-shadow: var(--card-shadow);
+  border: 0;
+  color: var(--title);
+}
+
+/* 项目页：紫色大面板 + 产品窗口内嵌 */
+.slide.project-embed { gap: .32rem; }
+.slide.project-embed h2 { font-size: clamp(30px, 2.8vw, 48px); }
+.embed-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: .8rem;
+}
+.embed-head .lead { margin: .15rem 0 0; font-size: clamp(16px, 1.3vw, 22px); max-width: 44em; }
+.embed-frame {
+  flex: 1;
+  min-height: 0;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 0;
+  box-shadow: none;
+  background: var(--purple);
+  padding: 14px;
+  display: flex; flex-direction: column;
+}
+.slide[data-memo-id="p23-tvc"] .embed-frame { background: var(--blue); }
+.slide[data-memo-id="p24-manhua"] .embed-frame { background: var(--coral); }
+.embed-frame .win { flex: 1; min-height: 0; }
+.embed-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #0b0614;
+  flex: 1;
+}
+
+
+/* 深色主题协调：目录 / 备注栏 / 底栏 / 灯箱，避免整页米色残留 */
+html, body { background: var(--stage); color: var(--ink); }
+.deck { background: var(--paper); }
+.slide { color: var(--ink); }
+.toc-panel, .memo-panel { color: var(--title); }
+.toc-item { color: var(--ink) !important; }
+.toc-item.on, .toc-item:hover { background: rgba(255,255,255,.06); }
+.memo-panel textarea, .memo-panel input, #memoInput {
+  background: #12121A; color: var(--title);
+  border: 1px solid var(--line);
+}
+.memo-panel button, .memo-actions button, .toc-head button {
+  background: var(--chip-bg); color: var(--title);
+  border: 1px solid var(--line);
+}
+.memo-hint, .memo-status, .memo-script { color: var(--mute); }
+.bar { background: var(--bar-bg); color: var(--mute); border-top-color: var(--line); }
+.notes { background: var(--notes-bg); color: var(--ink); border-color: var(--line); }
+.chip { background: var(--chip-bg); color: var(--title); border-color: var(--line); }
+.proj-btn { background: #fff; color: #191824; }
+.embed-frame { /* colored panels stay */ }
+.pic .cap { color: #fffaf4; }
+.cover-card .lead, .cover-card .meta, .slide.cover .lead { color: var(--ink); }
+.cover-card .meta { color: var(--mute); }
+
+
+/* ===== 图片主体页：标题顶 / 图最大 / 正文底 + 悬停放大 ===== */
+.slide.photo-story{
+  display:none;
+  flex-direction:column;
+  justify-content:flex-start;
+  overflow:visible;
+}
+.slide.photo-story.active{ display:flex; }
+.slide.photo-story > .kicker{ flex:0 0 auto; }
+.slide.photo-story > h2{
+  flex:0 0 auto;
+  margin:0 0 .35rem;
+  font-size:clamp(1.55rem,3.1vw,2.55rem);
+}
+.photo-stage{
+  position:relative;
+  flex:1 1 auto;
+  min-height:0;
+  width:100%;
+  overflow:visible;
+  z-index:1;
+}
+.photo-caption-bar{
+  flex:0 0 auto;
+  margin-top:.35rem;
+  max-width:100%;
+  z-index:2;
+}
+.photo-caption-bar p{
+  margin:0;
+  font-size:.78rem;
+  line-height:1.45;
+  color:var(--mute);
+}
+.photo-caption-bar p + p{ margin-top:.15rem; }
+.photo-caption-bar .tiny{ margin-top:.12rem; font-size:.68rem; }
+.photo-row{
+  display:flex;
+  flex-direction:row;
+  align-items:stretch;
+  justify-content:center;
+  gap:.5rem;
+  width:100%;
+  height:100%;
+  min-height:0;
+}
+.photo-row-2 > .pic,
+.photo-row-3 > .pic{
+  flex:1 1 0;
+  min-width:0;
+  height:100%;
+  max-height:100%;
+}
+.slide:not(.cover) .share-pics,
+.slide:not(.cover) .beta-pics,
+.slide:not(.cover) .office-grid,
+.slide:not(.cover) .office-cell,
+.slide:not(.cover) .food-grid,
+.slide:not(.cover) .food-row,
+.slide:not(.cover) .sky-layout,
+.slide:not(.cover) .sky-left,
+.slide:not(.cover) .vibe-grid,
+.slide:not(.cover) .edu-row,
+.slide:not(.cover) .pics,
+.slide:not(.cover) .g12,
+.slide:not(.cover) .split,
+.slide:not(.cover) .basic-shot,
+.slide:not(.cover) .win{
+  overflow:visible;
+}
+.slide.photo-story .share-pics,
+.slide.photo-story .beta-pics{
+  display:flex;
+  flex-direction:row;
+  align-items:stretch;
+  height:100%;
+  min-height:0;
+}
+.slide.photo-story .share-pics .pic,
+.slide.photo-story .beta-pics .pic{
+  flex:1 1 0;
+  width:auto;
+  height:100%;
+  max-height:100%;
+}
+.slide.photo-story .office-grid,
+.slide.photo-story .food-grid,
+.slide.photo-story .sky-layout,
+.slide.photo-story .vibe-grid,
+.slide.photo-story .edu-row{
+  height:100%;
+  min-height:0;
+}
+.slide.photo-story .q3-mini{
+  flex:0 0 auto;
+  max-height:26%;
+  margin-top:.35rem;
+}
+.slide.photo-story .pic{
+  overflow:visible;
+}
+.slide.photo-story .pic img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+.pic.is-waiting{
+  visibility:hidden;
+  pointer-events:none;
+}
+.office-cell:has(.pic.is-waiting) .img-note-open{
+  visibility:hidden;
+}
+.photo-fs{
+  position:fixed;
+  inset:0;
+  z-index:35;
+  background:rgba(8,8,16,.84);
+  pointer-events:auto;
+  cursor:pointer;
+}
+.photo-fs-frame{
+  position:absolute;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  background:transparent;
+  box-shadow:0 18px 60px rgba(0,0,0,.45);
+  overflow:visible;
+  pointer-events:none;
+  border-radius:8px;
+}
+.photo-fs-frame img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  background:transparent;
+}
+.photo-replay{
+  position:absolute;
+  right:1rem;
+  bottom:52px;
+  z-index:7;
+  appearance:none;
+  border:1px solid var(--line);
+  background:rgba(18,18,28,.72);
+  color:var(--ink);
+  font:600 .72rem/1 var(--font);
+  padding:.38rem .7rem;
+  border-radius:999px;
+  cursor:pointer;
+  backdrop-filter:blur(8px);
+}
+.photo-replay:hover{ border-color:var(--accent); color:#fff; }
+.photo-replay:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+/* 悬停放大：内层 pic-zoom，避免和外层归位 transform 打架 */
+.pic .pic-zoom{
+  display:block;
+  width:100%;
+  height:100%;
+  border-radius:inherit;
+  transform-origin:center center;
+  transition:transform .28s var(--lib-ease, cubic-bezier(.22,.61,.36,1));
+  will-change:transform;
+  overflow:hidden;
+}
+.pic .pic-zoom img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+.slide:not(.cover) .pic{ overflow:visible; }
+@media (hover:hover) and (pointer:fine){
+  .slide:not(.cover) .pic:hover,
+  .slide:not(.cover) .pic:focus-visible{
+    z-index:6;
+  }
+  .slide:not(.cover) .pic:hover .pic-zoom,
+  .slide:not(.cover) .pic:focus-visible .pic-zoom{
+    transform:scale(1.12);
+  }
+}
+.slide.cover .pic .pic-zoom,
+.slide.cover .pic:hover .pic-zoom{
+  transform:none;
+  transition:none;
+}
+
+/* 仅双图页由 JS 全屏时序驱动；三张及以上轻淡入终态 */
+.slide.photo-duo.active .photo-stage .pic,
+.slide.photo-duo.active .share-pics > .pic{
+  animation:none !important;
+}
+@keyframes photoSoftIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .slide.photo-story:not(.photo-duo).active .photo-stage .pic,
+  .slide.photo-story:not(.photo-duo).active .office-cell {
+    animation: photoSoftIn .5s ease both;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .pic .pic-zoom{ transition:none; }
+  .slide:not(.cover) .pic:hover .pic-zoom,
+  .slide:not(.cover) .pic:focus-visible .pic-zoom{
+    transform:scale(1.05);
+  }
+}
+
+/* ===== 视觉库动效（参考复现，按讲述顺序；未逐帧核对片源，不做原动画一致承诺） ===== */
+@keyframes m57-title {
+  from { opacity: 0; transform: translateY(28px); filter: blur(8px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@keyframes m57-card {
+  from { opacity: 0; transform: translateY(40px) scale(0.94); filter: blur(10px); }
+  to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes m11-lift {
+  from { opacity: 0; transform: translateY(40%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes m22-left {
+  from { opacity: 0; transform: translateX(-18%); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes m22-right {
+  from { opacity: 0; transform: translateX(18%); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes m33-push {
+  from { transform: scale(1); }
+  to   { transform: scale(1.04); }
+}
+@keyframes m52-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes m27-title {
+  from { opacity: 0; transform: scale(1.3); filter: blur(12px); }
+  to   { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+@keyframes m14-row {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes m73-punch {
+  from { opacity: 0; filter: blur(8px); transform: translateY(12px); }
+  to   { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+@keyframes m70-window {
+  from { opacity: 0; transform: translateY(18px) scale(0.94); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes m23-yaw {
+  from { opacity: 0; transform: perspective(640px) rotateY(70deg); }
+  to   { opacity: 1; transform: perspective(640px) rotateY(0); }
+}
+@keyframes m31-in {
+  from { opacity: 0; transform: translateY(28px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes m68-glow {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(1.35); }
+  100% { filter: brightness(1); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* 1 M57 标题入场 — 各页标题/kicker */
+  .slide.active > .kicker,
+  .slide.active > h1,
+  .slide.active > h2,
+  .slide.active .cover-card > .kicker,
+  .slide.active .cover-card > h1,
+  .slide.active .hero-q > .kicker {
+    animation: m57-title .8s var(--lib-ease) both;
+  }
+  .slide.active > .lead,
+  .slide.active > .explain,
+  .slide.active > .edu-note,
+  .slide.active > .vibe-foot,
+  .slide.active .cover-card > .lead,
+  .slide.active .cover-card > .meta {
+    animation: m57-title .8s var(--lib-ease) .16s both;
+  }
+  /* 3 M06 照片错峰 0.12s（取间隔，不用 ±12° 旋转以免回到手账感） */
+  .slide.active .office-cell,
+  .slide.active .food-row > .pic,
+  .slide.active .vibe-grid > .pic,
+  .slide.active .edu-row > .pic,
+  .slide.active .g12 > .pic,
+  .slide.active .vid-card {
+    animation: m57-card .8s var(--lib-ease) both;
+  }
+  .slide.active .office-cell:nth-child(1),
+  .slide.active .food-row > .pic:nth-child(1),
+  .slide.active .vibe-grid > .pic:nth-child(1),
+  .slide.active .edu-row > .pic:nth-child(1),
+  .slide.active .g12 > .pic:nth-child(1),
+  .slide.active .vid-card:nth-child(1) { animation-delay: .08s; }
+  .slide.active .office-cell:nth-child(2),
+  .slide.active .food-row > .pic:nth-child(2),
+  .slide.active .vibe-grid > .pic:nth-child(2),
+  .slide.active .edu-row > .pic:nth-child(2),
+  .slide.active .g12 > .pic:nth-child(2),
+  .slide.active .vid-card:nth-child(2) { animation-delay: .20s; }
+  .slide.active .office-cell:nth-child(3),
+  .slide.active .food-row > .pic:nth-child(3),
+  .slide.active .vibe-grid > .pic:nth-child(3),
+  .slide.active .edu-row > .pic:nth-child(3),
+  .slide.active .vid-card:nth-child(3) { animation-delay: .32s; }
+  .slide.active .office-cell:nth-child(4),
+  .slide.active .food-row > .pic:nth-child(4),
+  .slide.active .vibe-grid > .pic:nth-child(4) { animation-delay: .44s; }
+
+  /* 4 M11 照片组抬起 — 吃的那页整组 */
+  .slide.active .food-grid { animation: m11-lift .6s var(--lib-ease) both; }
+
+  /* 5 M22 跨设备横向接力 — 汽车/手机 */
+  .slide.active .beta-pics .pic:first-child { animation: m22-left .7s var(--lib-ease) both; }
+  .slide.active .beta-pics .pic:last-child { animation: m22-right .7s var(--lib-ease) .2s both; }
+
+  /* 6 M33 证据组缓推 scale 1→1.04 — 分享截图、评测图、RLHF 图 */
+  .slide.active .share-pics,
+  .slide.active .basic-shot,
+  .slide[data-memo-id="p11-q1-adv"].active .split > div:last-child {
+    animation: m33-push 2.6s var(--lib-ease) .25s both;
+    transform-origin: center center;
+  }
+
+  /* 7 M52 四问交错展开 */
+  .slide.active .ask-next > span { animation: m52-in .45s var(--lib-ease) both; }
+  .slide.active .ask-next > span:nth-child(1) { animation-delay: .08s; }
+  .slide.active .ask-next > span:nth-child(2) { animation-delay: .24s; }
+  .slide.active .ask-next > span:nth-child(3) { animation-delay: .40s; }
+  .slide.active .ask-next > span:nth-child(4) { animation-delay: .56s; }
+
+  /* 8 M27 问句标题 scale 1.3→1 + blur 12→0 */
+  .slide.qpage.active .hero-q > h1 {
+    animation: m27-title .7s var(--lib-ease) both;
+  }
+
+  /* 9 M03 三张模型卡错峰 0.16s */
+  .slide.active .model-card { animation: m57-card .8s var(--lib-ease) both; }
+  .slide.active .model-card:nth-child(1) { animation-delay: .08s; }
+  .slide.active .model-card:nth-child(2) { animation-delay: .24s; }
+  .slide.active .model-card:nth-child(3) { animation-delay: .40s; }
+
+  /* 10 M14 基础工作四卡逐条揭示 0.4s */
+  .slide.active .four-points > .qcard { animation: m14-row .4s var(--lib-ease) both; }
+  .slide.active .four-points > .qcard:nth-child(1) { animation-delay: .08s; }
+  .slide.active .four-points > .qcard:nth-child(2) { animation-delay: .48s; }
+  .slide.active .four-points > .qcard:nth-child(3) { animation-delay: .88s; }
+  .slide.active .four-points > .qcard:nth-child(4) { animation-delay: 1.28s; }
+
+  /* 11 M73 答案大字 blur 8→0 */
+  .slide.active .punch { animation: m73-punch .55s var(--lib-ease) both; }
+
+  /* 12 M70 项目窗口展开 */
+  .slide.active .embed-frame { animation: m70-window .55s var(--lib-ease) .12s both; }
+
+  /* 13 M23 关键词侧向转正 rotateY 70→0，错峰 0.1s */
+  .slide.active .kw-row .chip {
+    animation: m23-yaw .45s var(--lib-ease) both;
+    transform-origin: left center;
+  }
+  .slide.active .kw-row .chip:nth-child(1) { animation-delay: .08s; }
+  .slide.active .kw-row .chip:nth-child(2) { animation-delay: .18s; }
+  .slide.active .kw-row .chip:nth-child(3) { animation-delay: .28s; }
+  .slide.active .kw-row .chip:nth-child(4) { animation-delay: .38s; }
+  .slide.active .kw-row .chip:nth-child(5) { animation-delay: .48s; }
+  .slide.active .kw-row .chip:nth-child(6) { animation-delay: .58s; }
+
+  /* 14 M31 条件卡逐个围合成全貌 */
+  .slide.active .stack-card { animation: m31-in .6s var(--lib-ease) both; }
+  .slide.active .stack-card:nth-child(1) { animation-delay: .08s; }
+  .slide.active .stack-card:nth-child(2) { animation-delay: .26s; }
+  .slide.active .stack-card:nth-child(3) { animation-delay: .44s; }
+  .slide.active .stack-card:nth-child(4) { animation-delay: .62s; }
+
+  /* 15 M68 收口标题点亮 */
+  .slide[data-memo-id="p20-close"].active .cover-card > h1 {
+    animation: m57-title .8s var(--lib-ease) both, m68-glow 1.2s var(--lib-ease) .8s both;
+  }
+
+  .slide.active .q3-mini > .qcard,
+  .slide.active .qgrid > .qcard {
+    animation: m57-card .8s var(--lib-ease) both;
+  }
+  .slide.active .q3-mini > .qcard:nth-child(1),
+  .slide.active .qgrid > .qcard:nth-child(1) { animation-delay: .08s; }
+  .slide.active .q3-mini > .qcard:nth-child(2),
+  .slide.active .qgrid > .qcard:nth-child(2) { animation-delay: .20s; }
+  .slide.active .q3-mini > .qcard:nth-child(3),
+  .slide.active .qgrid > .qcard:nth-child(3) { animation-delay: .32s; }
+  .slide.active .q3-mini > .qcard:nth-child(4),
+  .slide.active .qgrid > .qcard:nth-child(4) { animation-delay: .44s; }
+
+  /* p25 下班后的天空：先标题（M57），再左侧三张错峰（M06），最后右侧天空 */
+  .slide.active .sky-left > .pic {
+    animation: m57-card .8s var(--lib-ease) both;
+    animation-delay: .16s;
+  }
+  .slide.active .sky-left-bottom > .pic:nth-child(1) {
+    animation: m57-card .8s var(--lib-ease) both;
+    animation-delay: .28s;
+  }
+  .slide.active .sky-left-bottom > .pic:nth-child(2) {
+    animation: m57-card .8s var(--lib-ease) both;
+    animation-delay: .40s;
+  }
+  .slide.active .sky-main {
+    animation: m70-window .8s var(--lib-ease) both;
+    animation-delay: .56s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide.active { animation: none; }
+  .slide.active * { animation: none !important; filter: none !important; }
+}
+
+</style>
+<style id="career26-styles">
+
+/* Added career chapter: all visual rules scoped to career26. Original slides untouched. */
+.slide.career26 { gap:.75rem; }
+.slide.career26 .c-title { font-size:clamp(36px,4.1vw,70px); line-height:1.12; flex:none; }
+.slide.career26 .c-sub { font-size:clamp(20px,1.8vw,30px);color:var(--mute);line-height:1.45; }
+.slide.career26 .c-grid { display:grid;gap:1.1rem;flex:1;min-height:0;margin-top:.6rem;align-items:stretch; }
+.slide.career26 .c-cols-3 {grid-template-columns:repeat(3,1fr)}
+.slide.career26 .c-cols-2 {grid-template-columns:repeat(2,1fr)}
+.slide.career26 .c-cols-4 {grid-template-columns:repeat(4,1fr)}
+.slide.career26 .c-card {border-radius:var(--radius);padding:1.5rem;display:flex;flex-direction:column;justify-content:center;gap:.8rem;min-width:0;box-shadow:var(--card-shadow);}
+.slide.career26 .c-card h3 {font-size:clamp(24px,2.25vw,38px);line-height:1.3;color:var(--title);}
+.slide.career26 .c-card p {font-size:clamp(19px,1.65vw,28px);line-height:1.5;color:var(--ink);}
+.slide.career26 .c-card small {display:block;margin-top:1rem;font-size:clamp(15px,1.15vw,20px);color:var(--mute);}
+.slide.career26 .c-tone-0 {background:var(--blue)}
+.slide.career26 .c-tone-1 {background:var(--purple)}
+.slide.career26 .c-tone-2 {background:var(--card)}
+.slide.career26 .c-tone-3 {background:var(--navy)}
+.slide.career26 .c-num {font-size:clamp(24px,3.3vw,58px);font-weight:800;line-height:1;color:rgba(255,255,255,.58);display:block;}
+.slide.career26 .c-center {text-align:center}
+.slide.career26.c-center {align-items:center;justify-content:center;text-align:center;}
+.slide.career26 .c-questions {flex:1;display:flex;flex-direction:column;justify-content:center;gap:1.6rem;}
+.slide.career26 .c-questions h1 {font-size:clamp(40px,4.65vw,80px);}
+.slide.career26 .c-questions h1:last-child {color:var(--accent)}
+.slide.career26 .c-ticket {display:flex;min-width:32vw;align-items:center;text-align:left;position:relative;border-radius:24px;background:var(--purple);margin-top:1.4rem;padding:1.4rem 2rem;box-shadow:var(--card-shadow);gap:2.3rem;}
+.slide.career26 .c-ticket span {font-size:15px;letter-spacing:.25em;opacity:.65;}
+.slide.career26 .c-ticket strong {display:block;font-size:clamp(30px,3.3vw,54px);margin-top:.6rem;}
+.slide.career26 .c-ticket-side {border-left:2px dashed rgba(255,255,255,.35);padding-left:1.5rem;font-size:20px;line-height:1.4;letter-spacing:.15em;}
+.slide.career26 .c-two-lists {display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;flex:1;min-height:0;margin-top:.5rem;}
+.slide.career26 .c-list-panel {padding:1.3rem 1.5rem;border-radius:var(--radius);}
+.slide.career26 .c-list-panel h3 {font-size:clamp(24px,2vw,34px);margin-bottom:1rem;}
+.slide.career26 .c-list-panel ul {list-style:none;display:flex;flex-direction:column;gap:.95rem;}
+.slide.career26 .c-list-panel li {font-size:clamp(18px,1.6vw,27px);display:flex;align-items:baseline;gap:.6rem;line-height:1.45;}
+.slide.career26 .c-bullet {height:7px;width:7px;background:currentColor;border-radius:50%;flex:none;display:inline-block;}
+.slide.career26 .c-route {display:flex;align-items:center;gap:2rem;justify-content:space-between;position:relative;padding:1.3rem 0;min-height:4rem;}
+.slide.career26 .c-route-stop {position:relative;flex:1;min-width:0;text-align:center;}
+.slide.career26 .c-route-stop:not(:last-child)::after {content:'→';position:absolute;right:-1.5rem;top:50%;transform:translateY(-50%);color:var(--accent);font-size:28px;}
+.slide.career26 .c-node {border-bottom:3px solid var(--accent);display:block;padding:1rem .25rem;font-size:clamp(18px,1.65vw,28px);font-weight:700;}
+.slide.career26 .c-route-wide {flex:1;align-items:center;}
+.slide.career26 .c-project-card {display:flex;align-items:center;gap:1.2rem;padding:1.5rem 2rem;border-radius:var(--radius);background:var(--purple);flex:1;min-height:0;}
+.slide.career26 .c-project-card>span {font-size:14px;letter-spacing:.13em;opacity:.65;}
+.slide.career26 .c-project-card strong {font-size:clamp(28px,2.7vw,44px);}
+.slide.career26 .c-chips {margin-left:auto;display:flex;flex-direction:column;gap:.4rem;}
+.slide.career26 .c-chips b {font-size:clamp(15px,1.1vw,19px);padding:.4rem .7rem;border:1px solid rgba(255,255,255,.3);border-radius:20px;font-weight:500;}
+.slide.career26 .c-leap-heading {display:grid;grid-template-columns:1fr 1.2fr;gap:1rem;}
+.slide.career26 .c-leap-heading h2 {font-size:clamp(30px,3.25vw,55px);line-height:1.15;}
+.slide.career26 .c-stairs {display:grid;grid-template-columns:repeat(3,1fr);align-items:end;gap:.9rem;flex:1;min-height:0;padding-top:1rem;}
+.slide.career26 .c-stair {border-radius:var(--radius) var(--radius) 12px 12px;padding:1.2rem 1.25rem;display:flex;flex-direction:column;justify-content:center;gap:.6rem;}
+.slide.career26 .c-level-0 {height:55%;background:var(--card)}
+.slide.career26 .c-level-1 {height:76%;background:var(--blue)}
+.slide.career26 .c-level-2 {height:100%;background:var(--purple)}
+.slide.career26 .c-stair h3 {font-size:clamp(22px,2vw,35px);line-height:1.25;}
+.slide.career26 .c-stair p {font-size:clamp(17px,1.4vw,24px);line-height:1.5;}
+.slide.career26 .c-stair .c-num {font-size:clamp(22px,2.2vw,38px)}
+.slide.career26 .c-money {font-weight:800;white-space:nowrap;}
+.slide.career26 .c-balance {display:flex;align-items:center;justify-content:center;gap:3rem;flex:1;min-height:0;}
+.slide.career26 .c-balance-label {font-size:clamp(30px,3.5vw,58px);}
+.slide.career26 .c-schedule {width:28%;aspect-ratio:1.25;border-radius:24px;background:var(--purple);padding:1rem 1.2rem;transform:rotate(-4deg);box-shadow:var(--card-shadow);}
+.slide.career26 .c-schedule-top {height:20%;display:flex;justify-content:space-around;}
+.slide.career26 .c-schedule-top i {height:80%;width:7%;border-radius:10px;background:var(--ink);transform:translateY(-90%);}
+.slide.career26 .c-schedule-lines {display:grid;grid-template-columns:repeat(4,1fr);gap:9%;height:70%;}
+.slide.career26 .c-schedule-lines span {background:rgba(255,255,255,.19);border-radius:5px;}
+.slide.career26 .c-schedule-lines span:nth-child(3n) {background:var(--coral)}
+.slide.career26 .c-two-step {display:flex;align-items:end;gap:1rem;flex:1;min-height:0;padding:1rem 10% 0;}
+.slide.career26 .c-two-step>div {flex:1;display:grid;place-items:center;border-radius:var(--radius) var(--radius) 10px 10px;font-size:clamp(28px,3.1vw,52px);font-weight:800;}
+.slide.career26 .c-step-low {height:55%;background:var(--blue)}
+.slide.career26 .c-step-high {height:95%;background:var(--purple)}
+.slide.career26 .c-cycle {display:flex;gap:2rem;align-items:center;flex:1;min-height:0;}
+.slide.career26 .c-cycle-node {flex:1;border-radius:var(--radius);padding:1.8rem 1.3rem;min-width:0;position:relative;}
+.slide.career26 .c-cycle-node strong {display:block;font-size:clamp(22px,2.1vw,36px);margin-top:1rem;line-height:1.3;}
+.slide.career26 .c-cycle-node:not(:last-child)::after {content:'→';position:absolute;right:-1.6rem;top:50%;color:var(--accent);font-size:28px;}
+.slide.career26 .c-loopback {text-align:center;border-bottom:2px solid var(--line);border-left:2px solid var(--line);border-right:2px solid var(--line);border-radius:0 0 18px 18px;padding:.4rem;color:var(--mute);font-size:clamp(17px,1.3vw,22px);margin:0 12%;}
+.slide.career26 .c-loopback span {margin:0 1.5rem;color:var(--accent)}
+.slide.career26 .c-keywords {display:flex;gap:1rem;justify-content:center;margin-top:2rem;}
+.slide.career26 .c-keywords span {background:var(--card);padding:1rem 1.5rem;border-radius:18px;font-size:clamp(24px,2.5vw,42px);font-weight:700;}
+.slide.career26 .c-keywords span:nth-child(2) {background:var(--blue)}
+.slide.career26 .c-keywords span:nth-child(3) {background:var(--purple)}
+.slide.career26.c-n14 .c-card {padding:1rem 1.3rem;gap:.4rem;}
+.slide.career26.c-n14 .c-num {font-size:clamp(21px,2.4vw,40px)}
+.slide.career26.c-n14 .c-card h3 {font-size:clamp(24px,2.1vw,36px)}
+.slide.career26 .c-accent {color:var(--accent);background:var(--paper);padding:.2rem .5rem;border-radius:8px;display:inline-block;}
+.slide.career26 .c-mindmap {display:grid;grid-template-columns:1fr 1fr;gap:2rem;flex:1;min-height:0;position:relative;padding-top:.5rem;}
+.slide.career26 .c-mindmap::before {content:'';position:absolute;height:.7rem;width:52%;border:2px solid var(--accent);border-bottom:0;left:24%;top:-.15rem;}
+.slide.career26 .c-branch {padding:1.1rem 1.5rem;border-radius:var(--radius);}
+.slide.career26 .c-branch h3 {font-size:clamp(23px,2vw,34px);margin-bottom:.7rem;}
+.slide.career26 .c-branch ul {list-style:none;display:flex;flex-direction:column;gap:.38rem;}
+.slide.career26 .c-branch li {font-size:clamp(19px,1.65vw,28px);line-height:1.35;border-left:2px solid rgba(255,255,255,.35);padding-left:.75rem;}
+.slide.career26 .c-small-sub {font-size:clamp(17px,1.4vw,24px);margin-top:.2rem;}
+.slide.career26 .c-level-path {display:flex;gap:1.2rem;flex:1;align-items:end;min-height:0;padding-top:1rem;}
+.slide.career26 .c-path-node {position:relative;flex:1;background:var(--card);border-radius:24px;padding:1.25rem 1rem;min-height:35%;display:flex;flex-direction:column;gap:1.4rem;}
+.slide.career26 .c-path-node:not(:last-child)::after {content:'↗';position:absolute;right:-1.1rem;top:0;color:var(--accent);font-size:32px;}
+.slide.career26 .c-path-node span {font-size:clamp(28px,3.3vw,56px);font-weight:800;color:rgba(255,255,255,.5);}
+.slide.career26 .c-path-node strong {font-size:clamp(21px,1.9vw,32px)}
+.slide.career26 .c-rise-1 {margin-bottom:4%;background:var(--navy)}
+.slide.career26 .c-rise-2 {margin-bottom:8%;background:var(--blue)}
+.slide.career26 .c-rise-3 {margin-bottom:12%;background:var(--purple)}
+.slide.career26 .c-demand-layout {display:grid;grid-template-columns:1.1fr 1fr;gap:2.5rem;align-items:center;flex:1;min-height:0;}
+.slide.career26 .c-demand-layout h1 {font-size:clamp(40px,4.4vw,74px);line-height:1.16;}
+.slide.career26 .c-demand-flow {display:flex;flex-direction:column;gap:1rem;}
+.slide.career26 .c-demand-node {position:relative;text-align:center;background:var(--card);border-radius:16px;padding:.65rem;font-size:clamp(19px,1.7vw,29px);font-weight:600;}
+.slide.career26 .c-demand-node:not(:last-child)::after {content:'↓';position:absolute;bottom:-1.1rem;left:48%;color:var(--accent);font-size:20px;line-height:1;}
+.slide.career26 .c-demand-node:last-child {background:var(--purple)}
+.slide.career26 .c-focus {display:flex;flex-direction:column;justify-content:center;gap:2.5rem;flex:1;}
+.slide.career26 .c-focus h1 {font-size:clamp(42px,5.3vw,88px);line-height:1.16;}
+.slide.career26 .c-focus-answer {color:var(--accent)}
+.slide.career26.c-n22 .c-title {font-size:clamp(32px,3.5vw,59px)}
+.slide.career26.c-n22 .c-stairs {padding-top:.2rem;}
+.slide.career26.c-n22 .c-stair {padding:1rem;gap:.4rem;}
+.slide.career26.c-n22 .c-stair h3 {font-size:clamp(22px,1.95vw,33px)}
+.slide.career26.c-n22 .c-stair p {font-size:clamp(16px,1.3vw,22px)}
+.slide.career26 .c-bridges {display:grid;grid-template-columns:1fr 1.4fr;gap:1.1rem;margin-top:.25rem;}
+.slide.career26 .c-bridges>div {font-size:clamp(16px,1.4vw,24px);color:var(--mute);line-height:1.3;border-top:2px solid var(--accent);padding-top:.5rem;}
+.slide.career26 .c-closing {flex:1;display:flex;flex-direction:column;justify-content:center;gap:1.1rem;}
+.slide.career26 .c-closing h1 {font-size:clamp(38px,4.35vw,74px);line-height:1.15;}
+.slide.career26 .c-last-line {color:var(--accent)}
+/* Reuse the original Motion 57 / Motion 14 entrance vocabulary and active-slide mechanism. */
+@media(prefers-reduced-motion:no-preference){
+ .slide.career26.active .c-reveal {animation:m57-card .8s var(--lib-ease) var(--c-delay,.12s) both;}
+ .slide.career26.active .c-questions .c-reveal,
+ .slide.career26.active .c-closing .c-reveal,
+ .slide.career26.active .c-focus .c-reveal {animation-name:m57-title;}
+ .slide.career26.active .c-list-panel li.c-reveal,
+ .slide.career26.active .c-branch li.c-reveal {animation-name:m14-row;}
+}
+/* Necessary navigation adaptation for 46 dots, without touching slide visuals. */
+.bar #dots {max-width:38vw;overflow-x:auto;flex-shrink:1;min-width:40px;padding:5px 2px;}
+.bar #dots .dot {flex:none;}
+
+</style>
+<style id="qa48-styles">
+/* Two summary pages only. Original 46 slide layouts are not selected. */
+.slide.qa48 {gap:.85rem;}
+.slide.qa48>h2 {font-size:clamp(36px,4.1vw,70px);line-height:1.12;flex:none;}
+.slide.qa48 .qa48-list {display:flex;flex-direction:column;gap:.6rem;flex:1;min-height:0;margin-top:.4rem;}
+.slide.qa48 .qa48-row {display:grid;grid-template-columns:3.4rem 1.1fr 1.4fr;align-items:center;gap:1.1rem;flex:1;min-height:0;padding:.75rem 1.2rem;background:var(--card);border-radius:20px;}
+.slide.qa48 .qa48-row:nth-child(1) {background:var(--blue);}
+.slide.qa48 .qa48-row:nth-child(2) {background:var(--purple);}
+.slide.qa48 .qa48-row:nth-child(4) {background:var(--navy);}
+.slide.qa48 .qa48-number {font-size:clamp(25px,2.7vw,45px);font-weight:800;color:rgba(255,255,255,.55);line-height:1;}
+.slide.qa48 .qa48-row h3 {font-size:clamp(20px,1.9vw,32px);line-height:1.3;color:var(--title);font-weight:800;}
+.slide.qa48 .qa48-row p {font-size:clamp(18px,1.5vw,26px);line-height:1.45;color:var(--ink);}
+.slide.qa48 .qa48-grid {display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:1rem;flex:1;min-height:0;margin-top:.5rem;}
+.slide.qa48 .qa48-task {display:flex;flex-direction:column;justify-content:center;gap:.55rem;min-width:0;min-height:0;padding:1rem 1.2rem;border-radius:var(--radius);background:var(--card);box-shadow:var(--card-shadow);}
+.slide.qa48 .qa48-task:nth-child(1) {background:var(--blue);}
+.slide.qa48 .qa48-task:nth-child(2) {background:var(--purple);}
+.slide.qa48 .qa48-task:nth-child(6) {background:var(--navy);}
+.slide.qa48 .qa48-task-top {display:flex;align-items:center;gap:.7rem;margin-bottom:.15rem;}
+.slide.qa48 .qa48-check {width:1.1rem;height:1.1rem;border:2px solid rgba(255,255,255,.55);border-radius:4px;display:inline-block;}
+.slide.qa48 .qa48-task-number {font-size:clamp(17px,1.3vw,22px);font-weight:700;color:rgba(255,255,255,.6);}
+.slide.qa48 .qa48-task h3 {font-size:clamp(22px,2vw,34px);line-height:1.3;color:var(--title);font-weight:800;}
+.slide.qa48 .qa48-task p {font-size:clamp(18px,1.4vw,24px);line-height:1.45;color:var(--ink);}
+@media(prefers-reduced-motion:no-preference){
+ .slide.qa48.active .qa48-row {animation:m14-row .5s var(--lib-ease) var(--qa-delay,.08s) both;}
+ .slide.qa48.active .qa48-task {animation:m57-card .8s var(--lib-ease) var(--qa-delay,.08s) both;}
+}
+</style>
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+  <symbol id="i-compare" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="5" width="8" height="14" rx="2"/>
+    <rect x="13" y="5" width="8" height="14" rx="2"/>
+  </symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M2.5 12s3.6-6 9.5-6 9.5 6 9.5 6-3.6 6-9.5 6-9.5-6-9.5-6Z"/>
+    <circle cx="12" cy="12" r="2.4"/>
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="8"/>
+    <path d="M8.2 12.2l2.6 2.6 5-5.4"/>
+  </symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3.2l1.55 6.05L20 11l-6.45 1.75L12 20.8l-1.55-8.05L4 11l6.45-1.75Z"/>
+  </symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6 6-6"/>
+  </symbol>
+  <symbol id="i-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="6" y="3.5" width="12" height="17" rx="2"/>
+    <path d="M9 8.5h6M9 12h6M9 15.5h3.5"/>
+  </symbol>
+</svg>
+
+<div class="stage rail-open rail-toc"><div class="deck">
+<section class="slide cover active" data-memo-id="p01-cover" data-title="封面" data-toc="封面" data-notes="口头问候河北科技大学的同学即可，不要把河科大印成毕业院校。">
+  <div class="cover-copy">
+    <div class="cover-card">
+      <div class="kicker script">hello · a campus talk</div>
+      <h1>如何在<span class="hl">AI</span>时代<br>成功转型？</h1>
+      <p class="lead" style="margin-top:.65rem">你好呀，我是婉祯</p>
+      <p class="meta">吴婉祯 · 吉林大学 · 信息工程<br>字节跳动 Seed · Seedance 模型效果评测与调优</p>
+    </div>
+  </div>
+  <div class="cover-photo">
+    <button class="pic" data-full="assets/portrait.jpg" data-caption="吴婉祯">
+      <img src="assets/portrait.jpg" alt="吴婉祯" />
+    </button>
+    <div class="cover-fade" aria-hidden="true"></div>
+  </div>
+</section><section class="slide title-only photo-story" data-memo-id="p25-afterwork-sky" data-title="先看看下班后的天空" data-toc="先看看下班后的天空" data-notes="只保留大标题。左侧三张依次来自文件夹前三张，右侧为下班后的天空。点击可放大。">
+  <h2>先看看下班后的<span class="hl">天空</span></h2>
+  <div class="photo-stage">
+  <div class="sky-layout">
+    <div class="sky-left">
+      <button class="pic" style="--ar:4096/2730" data-full="assets/sky-campus.jpeg" data-caption="">
+        <img src="assets/sky-campus.jpeg" alt="校招相关界面拼图" />
+      </button>
+      <div class="sky-left-bottom">
+        <button class="pic" style="--ar:1440/1080" data-full="assets/sky-left-10.jpg" data-caption="">
+          <img src="assets/sky-left-10.jpg" alt="毕业典礼现场" />
+        </button>
+        <button class="pic" style="--ar:1920/2560" data-full="assets/sky-left-44.jpg" data-caption="">
+          <img src="assets/sky-left-44.jpg" alt="工牌与入职指引" />
+        </button>
+      </div>
+    </div>
+    <button class="pic sky-main" style="--ar:2560/1920" data-full="assets/sky-afterwork.jpg" data-caption="">
+      <img src="assets/sky-afterwork.jpg" alt="下班后的天空" />
+    </button>
+  </div>
+  </div>
+</section><section class="slide title-only photo-story" data-memo-id="p03-food" data-title="先从吃的说起" data-toc="先从吃的说起" data-notes="只保留大标题，七张图来自「先从吃的说起」文件夹。">
+  <h2>先从<span class="hl">吃的</span>说起</h2>
+  <div class="photo-stage">
+  <div class="pics food-grid">
+    <div class="food-row">
+      <button class="pic pola" data-full="assets/food-01.jpg" data-caption="">
+        <i class="tape"></i>
+        <img src="assets/food-01.jpg" alt="图片" />
+      </button>
+      <button class="pic pola" data-full="assets/food-02.jpg" data-caption="">
+        <i class="tape"></i>
+        <img src="assets/food-02.jpg" alt="图片" />
+      </button>
+      <button class="pic pola" data-full="assets/food-03.jpg" data-caption="">
+        <i class="tape"></i>
+        <img src="assets/food-03.jpg" alt="图片" />
+      </button>
+      <button class="pic pola" data-full="assets/food-04.jpg" data-caption="">
+        <i class="tape"></i>
+        <img src="assets/food-04.jpg" alt="图片" />
+      </button>
+    </div>
+    <div class="food-row">
+      <button class="pic pola food-sq" data-full="assets/food-05.jpg" data-caption="">
+        <i class="tape"></i>
+        <img src="assets/food-05.jpg" alt="图片" />
+      </button>
+      <button class="pic pola" data-full="assets/food-06.jpg" data-caption="">
+        <i class="tape"></i>
+        <img src="assets/food-06.jpg" alt="图片" />
+      </button>
+      <button class="pic pola" data-full="assets/food-07.jpg" data-caption="">
+        <i class="tape"></i>
+        <img src="assets/food-07.jpg" alt="图片" />
+      </button>
+    </div>
+  </div>
+  </div>
+</section><section class="slide title-only photo-story" data-memo-id="p04-pace" data-title="办公环境" data-toc="办公环境" data-notes="大标题只写办公环境。四张图都来自「节奏自己握着，工区也安静」：升降桌、入职 Mac 礼包、健身房、团建拼图。点开图片或图下「备注」可查看和编辑逐图备注。">
+  <h2>办公<span class="hl">环境</span></h2>
+  <div class="photo-stage">
+  <div class="pics office-grid">
+    <div class="office-cell" style="--fw:0.5625;--ar:1080/1920">
+      <button class="pic pola shot" data-full="assets/office-desk.jpg" data-caption="" data-img-note-id="img-office-desk" data-img-note="人体工学升降桌，工位可以坐站切换。">
+        <i class="tape"></i>
+        <img src="assets/office-desk.jpg" alt="人体工学升降桌" />
+      </button>
+      <button type="button" class="img-note-open" data-for-img="img-office-desk"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-note"/></svg>备注</button>
+    </div>
+    <div class="office-cell" style="--fw:0.75;--ar:1440/1920">
+      <button class="pic pola shot" data-full="assets/office-gym.jpg" data-caption="" data-img-note-id="img-office-gym" data-img-note="公司健身房，不是工位或办公区。">
+        <i class="tape"></i>
+        <img src="assets/office-gym.jpg" alt="公司健身房" />
+      </button>
+      <button type="button" class="img-note-open" data-for-img="img-office-gym"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-note"/></svg>备注</button>
+    </div>
+    <div class="office-cell" style="--fw:0.75;--ar:1080/1440">
+      <button class="pic pola shot" style="--rot:1deg" data-full="assets/office-mac.jpg" data-caption="" data-img-note-id="img-office-mac" data-img-note="入职时发放的 Mac 电脑和大礼包。">
+        <i class="tape"></i>
+        <img src="assets/office-mac.jpg" alt="入职 Mac 大礼包" />
+      </button>
+      <button type="button" class="img-note-open" data-for-img="img-office-mac"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-note"/></svg>备注</button>
+    </div>
+    <div class="office-cell" style="--fw:0.8003;--ar:1122/1402">
+      <button class="pic pola shot" style="--rot:-.6deg" data-full="assets/office-team.jpg" data-caption="" data-img-note-id="img-office-team" data-img-note="团建拼图：餐食、场地和集体合影。">
+        <i class="tape"></i>
+        <img src="assets/office-team.jpg" alt="团建拼图" />
+      </button>
+      <button type="button" class="img-note-open" data-for-img="img-office-team"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-note"/></svg>备注</button>
+    </div>
+  </div>
+  </div>
+</section><section class="slide photo-story" data-memo-id="p07-beta" data-title="日常·内测" data-toc="日常 · 内测" data-notes="补充豆包手机图，与豆包汽车内测图并列。">
+  <div class="kicker">体验篇</div>
+  <h2>还能提前体验还没上线的产品</h2>
+  <div class="photo-stage">
+    <div class="beta-pics photo-row photo-row-3">
+      <button class="pic pola shot" data-full="assets/doubao-car-redacted.jpg" data-caption="豆包汽车内测">
+        <i class="tape"></i>
+        <img src="assets/doubao-car-redacted.jpg" alt="豆包汽车内测" />
+        <span class="cap">豆包汽车内测</span>
+      </button>
+      <button class="pic pola shot" data-full="assets/doubao-car-exterior.jpg" data-caption="豆包汽车">
+        <i class="tape"></i>
+        <img src="assets/doubao-car-exterior.jpg" alt="豆包汽车" />
+        <span class="cap">豆包汽车</span>
+      </button>
+      <button class="pic pola shot" data-full="assets/doubao-phone.jpg" data-caption="豆包手机">
+        <i class="tape"></i>
+        <img src="assets/doubao-phone.jpg" alt="豆包手机" />
+        <span class="cap">豆包手机</span>
+      </button>
+    </div>
+  </div>
+  <div class="photo-caption-bar">
+    <p>还可以体验还没对外上线的产品。比如提前坐坐<strong>豆包汽车</strong>——我不会开，负责坐后排体验；也可以提前玩玩豆包手机。模型这边，也会有<strong>内测和专家团</strong>的机会。</p>
+    <p class="tiny">版本号与权限细节待公开确认，本页只用泛称。</p>
+  </div>
+</section><section class="slide photo-story photo-duo" data-memo-id="p08-share" data-title="内部的技术分享，成长就像按下加速键" data-toc="内部技术分享" data-notes="标题改为「成长就像按下加速键」。配张咋啦公开主页与内部分享预告。">
+  <div class="kicker">体验篇</div>
+  <h2>内部的技术分享，成长就像按下<span class="hl">加速键</span></h2>
+  <div class="photo-stage" data-photo-story>
+    <div class="share-pics photo-row photo-row-2">
+      <button class="pic pola shot" data-full="assets/share-zhang-profile.jpg" data-caption="张咋啦（公开主页）">
+        <i class="tape"></i>
+        <img src="assets/share-zhang-profile.jpg" alt="张咋啦（公开主页）" />
+        <span class="cap">张咋啦（公开主页）</span>
+      </button>
+      <button class="pic pola shot" data-full="assets/share-zhang-event.jpg" data-caption="内部技术分享预告">
+        <i class="tape"></i>
+        <img src="assets/share-zhang-event.jpg" alt="内部技术分享预告" />
+        <span class="cap">内部技术分享预告</span>
+      </button>
+    </div>
+  </div>
+  <div class="photo-caption-bar">
+    <p>字节内部还有特别开放的技术分享。很多人会把自己亮眼的技术内容开源出来，这是很多地方少见的。利用好这些资源，成长会很快。都说字节一年人间三年，和这件事很有关系。</p>
+  </div>
+</section><section class="slide" data-memo-id="p02-intro" data-title="开场人设" data-toc="开场过渡" data-notes="吃喝玩乐之后作为影子入场，带出后面四个问题。">
+  <div class="kicker">开场</div>
+  <h2>先做个自我介绍</h2>
+  <div class="split">
+    <div class="side">
+      <p class="lead">我和子木老师、泡泡老师不太一样：我不是专业的老师。我是<strong>非本专业、纯转行</strong>走进 AI 和大厂的。</p>
+      <p class="lead">今年本科毕业，校招进入字节跳动 Seed，做 Seedance <strong>模型效果评测与调优</strong>。</p>
+      <p class="lead">毕业后，母校吉林大学邀请我作为优秀校友去做分享，也上了学校公众号。</p>
+      <p class="lead">我以一个刚毕业、先一步进入职场的师姐身份，讲讲自己是怎么转到 AI、走进字节的。</p>
+      <div class="chips">
+        <span class="chip">吉林大学 · 信息工程</span>
+        <span class="chip">校招正式编制</span>
+        <span class="chip">Seed / Seedance</span>
+      </div>
+    </div>
+    <div class="pics g12">
+      <button class="pic pola" data-full="assets/portrait.jpg" data-caption="婉祯">
+        <i class="tape"></i>
+        <img src="assets/portrait.jpg" alt="婉祯" />
+        <span class="cap">婉祯</span>
+      </button>
+      <button class="pic pola" style="--rot:1deg" data-full="assets/badge.jpg" data-caption="入职那天">
+        <i class="tape"></i>
+        <img src="assets/badge.jpg" alt="入职那天" />
+        <span class="cap">入职那天</span>
+      </button>
+    </div>
+  </div>
+  <p class="tiny" style="margin-top:.15rem">接下来，我会展开这四个问题——</p>
+  <div class="ask-next">
+    <span>我在字节做什么？</span>
+    <span>转行 AI 一定要懂代码吗？</span>
+    <span>进大厂一定要高学历吗？</span>
+    <span>如何完成入行？</span>
+  </div>
+</section>
+<!-- BEGIN career26: 23 new slides after original page 7 -->
+<section class="slide career26 c-n01" data-memo-id="career26-n01" data-title="毕业时的迷茫" data-toc="毕业时的迷茫" data-notes=""><div class="kicker">毕业时的迷茫</div><div class="c-questions"><h1 class="c-reveal " style="--c-delay:0.12s">我以后要从事什么职业？</h1><h1 class="c-reveal " style="--c-delay:0.30s">未来要往哪个方向走？</h1><h1 class="c-reveal " style="--c-delay:0.48s">要深耕哪一个领域？</h1></div></section>
+
+<section class="slide career26 c-center" data-memo-id="career26-n02" data-title="非相关专业怎么入门" data-toc="非相关专业怎么入门" data-notes=""><div class="kicker">我的来时路 · 02</div><h2 class="c-title">我不是相关专业的，<br>怎么<span class="hl">快速入门？</span></h2><p class="c-sub">我需要快速拿到一张大厂入场券</p><div class="c-reveal " style="--c-delay:0.12s"><div class="c-ticket"><div><span>ADMIT ONE</span><strong>大厂入场券</strong></div><div class="c-ticket-side">AI<br>ENTRY</div></div></div></section>
+
+<section class="slide career26 " data-memo-id="career26-n03" data-title="我为什么选择通过且曼快速入局 AI？" data-toc="我为什么选择通过且曼快速入局 AI？" data-notes=""><div class="kicker">我的来时路 · 03</div><h2 class="c-title">我为什么选择通过且曼<br><span class="hl">快速入局 AI？</span></h2><div class="c-two-lists"><div class="c-list-panel c-tone-0"><h3>我的需求</h3><ul><li class="c-reveal " style="--c-delay:0.12s"><span class="c-bullet"></span>春招前快速积累第一份大厂实习经验</li><li class="c-reveal " style="--c-delay:0.30s"><span class="c-bullet"></span>拿到AI行业的入场券</li><li class="c-reveal " style="--c-delay:0.48s"><span class="c-bullet"></span>节省调研和信息过滤的时间</li></ul></div><div class="c-list-panel c-tone-1"><h3>获得的帮助</h3><ul><li class="c-reveal " style="--c-delay:0.12s"><span class="c-bullet"></span>快速搭建体系化知识</li><li class="c-reveal " style="--c-delay:0.30s"><span class="c-bullet"></span>提炼学习重点与工作需要的内容</li><li class="c-reveal " style="--c-delay:0.48s"><span class="c-bullet"></span>获得学习环境和进步圈子</li><li class="c-reveal " style="--c-delay:0.66s"><span class="c-bullet"></span>接触更多大厂人脉</li></ul></div></div></section>
+
+<section class="slide career26 " data-memo-id="career26-n04" data-title="从知识到真实项目" data-toc="从知识到真实项目" data-notes=""><div class="kicker">我的来时路 · 04</div><h2 class="c-title">学到的知识，<br>怎么变成<span class="hl">真实项目？</span></h2><div class="c-route "><div class="c-reveal c-route-stop" style="--c-delay:0.12s"><span class="c-node">建立知识框架</span></div><div class="c-reveal c-route-stop" style="--c-delay:0.30s"><span class="c-node">结合个人经历</span></div><div class="c-reveal c-route-stop" style="--c-delay:0.48s"><span class="c-node">做出项目</span></div><div class="c-reveal c-route-stop" style="--c-delay:0.66s"><span class="c-node">解决实际问题</span></div></div><div class="c-reveal " style="--c-delay:0.84s"><div class="c-project-card"><span>PROJECT</span><strong>电商知识问答助手</strong><div class="c-chips"><b>RAG</b><b>向量库</b><b>基于资料回答</b></div></div></div></section>
+
+<section class="slide career26 c-n05" data-memo-id="career26-n05" data-title="回顾过往职业二连跳" data-toc="回顾过往职业二连跳" data-notes=""><div class="kicker">回顾过往，变化很大</div><div class="c-leap-heading"><h2>从非相关专业<br>转入 <span class="hl">AI 行业</span></h2><h2>从 AI 相关实习<br>走进头部大厂核心部门</h2></div><div class="c-stairs"><div class="c-reveal c-stair c-level-0" style="--c-delay:0.12s"><span class="c-num">01</span><h3>非相关专业</h3><p>起点</p></div><div class="c-reveal c-stair c-level-1" style="--c-delay:0.30s"><span class="c-num">02</span><h3>AI行业实习</h3><p>月薪<span class="c-money">8,000元</span></p></div><div class="c-reveal c-stair c-level-2" style="--c-delay:0.48s"><span class="c-num">03</span><h3>字节跳动核心部门</h3><p>正式工作后，<br>工资翻了两倍多</p></div></div></section>
+
+<section class="slide career26 " data-memo-id="career26-n06" data-title="第一份AI实习" data-toc="第一份AI实习" data-notes=""><div class="kicker">我的来时路 · 06</div><h2 class="c-title">第一份 AI 实习，<br>我是<span class="hl">怎么开始的？</span></h2><div class="c-route c-route-wide"><div class="c-reveal c-route-stop" style="--c-delay:0.12s"><span class="c-node">学习基础</span></div><div class="c-reveal c-route-stop" style="--c-delay:0.30s"><span class="c-node">寻找机会</span></div><div class="c-reveal c-route-stop" style="--c-delay:0.48s"><span class="c-node">进入米哈游</span></div><div class="c-reveal c-route-stop" style="--c-delay:0.66s"><span class="c-node">接触真实工作</span></div></div></section>
+
+<section class="slide career26 " data-memo-id="career26-n07" data-title="刚开始工作遇到什么" data-toc="刚开始工作遇到什么" data-notes=""><div class="kicker">我的来时路 · 07</div><h2 class="c-title">刚开始工作，<br>我遇到了什么？</h2><div class="c-grid c-cols-3"><div class="c-reveal c-card c-tone-0" style="--c-delay:0.12s"><span class="c-num">01</span><h3>岗位对我<br>有什么要求？</h3></div><div class="c-reveal c-card c-tone-1" style="--c-delay:0.30s"><span class="c-num">02</span><h3>有没有人<br>带我？</h3></div><div class="c-reveal c-card c-tone-2" style="--c-delay:0.48s"><span class="c-num">03</span><h3>不会的时候，<br>怎么和同事沟通？</h3></div></div></section>
+
+<section class="slide career26 " data-memo-id="career26-n08" data-title="如何平衡实习和在校学习" data-toc="如何平衡实习和在校学习" data-notes=""><div class="kicker">我的来时路 · 08</div><h2 class="c-title">如何平衡实习<br>和<span class="hl">在校学习？</span></h2><div class="c-balance"><div class="c-reveal c-balance-label" style="--c-delay:0.12s"><strong>实习</strong></div><div class="c-schedule" aria-hidden="true"><div class="c-schedule-top"><i></i><i></i></div><div class="c-schedule-lines"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div><div class="c-reveal c-balance-label" style="--c-delay:0.30s"><strong>在校学习</strong></div></div></section>
+
+<section class="slide career26 " data-memo-id="career26-n09" data-title="让第一份实习成为跳板" data-toc="让第一份实习成为跳板" data-notes=""><div class="kicker">我的来时路 · 09</div><h2 class="c-title">如何在第一份实习中，<br>为<span class="hl">下一份工作</span>做准备？</h2><p class="c-sub">实习期间，怎么准备春招？</p><div class="c-two-step"><div class="c-reveal c-step-low" style="--c-delay:0.12s">第一份实习</div><div class="c-reveal c-step-high" style="--c-delay:0.30s">春招</div></div></section>
+
+<section class="slide career26 " data-memo-id="career26-n10" data-title="工作实践辅助模型学习" data-toc="工作实践辅助模型学习" data-notes=""><div class="kicker">我的来时路 · 10</div><h2 class="c-title">如何用工作实践，<br>辅助<span class="hl">模型研究和学习？</span></h2><div class="c-cycle"><div class="c-reveal c-cycle-node c-tone-0" style="--c-delay:0.12s"><span class="c-num">01</span><strong>工作中发现问题</strong></div><div class="c-reveal c-cycle-node c-tone-1" style="--c-delay:0.30s"><span class="c-num">02</span><strong>学习原理</strong></div><div class="c-reveal c-cycle-node c-tone-2" style="--c-delay:0.48s"><span class="c-num">03</span><strong>回到工作中验证</strong></div></div><div class="c-loopback">实践 <span>←</span> 验证 <span>←</span> 学习</div></section>
+
+<section class="slide career26 c-center" data-memo-id="career26-n11" data-title="春招过渡页" data-toc="春招过渡页" data-notes=""><div class="kicker">我的来时路 · 11</div><h2 class="c-title">我是如何在春招中<br>找机会、投简历、准备面试的？</h2><div class="c-keywords"><span class="c-reveal " style="--c-delay:0.12s">找机会</span><span class="c-reveal " style="--c-delay:0.30s">投简历</span><span class="c-reveal " style="--c-delay:0.48s">准备面试</span></div></section>
+
+<section class="slide career26 " data-memo-id="career26-n12" data-title="准备方向简历" data-toc="准备方向简历" data-notes=""><div class="kicker">我的来时路 · 12</div><h2 class="c-title">我是怎么准备<br><span class="hl">方向和简历</span>的？</h2><div class="c-grid c-cols-3"><div class="c-reveal c-card c-tone-0" style="--c-delay:0.12s"><span class="c-num">01</span><h3>选择方向</h3><p>项目和经历贴合<br>自己想去的方向</p></div><div class="c-reveal c-card c-tone-1" style="--c-delay:0.30s"><span class="c-num">02</span><h3>锚定岗位</h3><p>对照岗位JD<br>与公司需求</p></div><div class="c-reveal c-card c-tone-2" style="--c-delay:0.48s"><span class="c-num">03</span><h3>凸显竞争力</h3><p>让招聘方看到<br>自己的优势</p></div></div></section>
+
+<section class="slide career26 " data-memo-id="career26-n13" data-title="STAR" data-toc="STAR" data-notes=""><div class="kicker">我的来时路 · 13</div><h2 class="c-title">怎么把项目经历<span class="hl">写清楚？</span></h2><div class="c-grid c-cols-4"><div class="c-reveal c-card c-tone-0" style="--c-delay:0.12s"><span class="c-num">S</span><h3>背景</h3><p>项目为什么开始</p></div><div class="c-reveal c-card c-tone-1" style="--c-delay:0.30s"><span class="c-num">T</span><h3>任务</h3><p>我要完成什么</p></div><div class="c-reveal c-card c-tone-2" style="--c-delay:0.48s"><span class="c-num">A</span><h3>行动</h3><p>我是怎么做的</p></div><div class="c-reveal c-card c-tone-3" style="--c-delay:0.66s"><span class="c-num">R</span><h3>结果</h3><p>最终取得什么成果</p></div></div></section>
+
+<section class="slide career26 c-n14" data-memo-id="career26-n14" data-title="如何投递简历" data-toc="如何投递简历" data-notes=""><div class="kicker">我的来时路 · 14</div><h2 class="c-title">如何<span class="hl">投递简历？</span></h2><div class="c-grid c-cols-2"><div class="c-reveal c-card c-tone-0" style="--c-delay:0.12s"><span class="c-num">01</span><h3>选择平台</h3><p>重点关注BOSS直聘</p></div><div class="c-reveal c-card c-tone-1" style="--c-delay:0.30s"><span class="c-num">02</span><h3>投递数量</h3><p><strong class="c-accent">每天投够平台上限</strong></p></div><div class="c-reveal c-card c-tone-2" style="--c-delay:0.48s"><span class="c-num">03</span><h3>打招呼语</h3><p>把自己的亮点放在前面</p></div><div class="c-reveal c-card c-tone-3" style="--c-delay:0.66s"><span class="c-num">04</span><h3>岗位匹配</h3><p>简历方向与投递岗位对应</p></div></div></section>
+
+<section class="slide career26 c-n15" data-memo-id="career26-n15" data-title="如何准备面试" data-toc="如何准备面试" data-notes=""><div class="kicker">我的来时路 · 15</div><h2 class="c-title">如何准备面试，<br>体现<span class="hl">自己的能力？</span></h2><div class="c-grid c-cols-2"><div class="c-reveal c-card c-tone-0" style="--c-delay:0.12s"><span class="c-num">01</span><h3>专业能力</h3></div><div class="c-reveal c-card c-tone-1" style="--c-delay:0.30s"><span class="c-num">02</span><h3>个人素养<br>与适应能力</h3></div></div></section>
+
+<section class="slide career26 c-n16" data-memo-id="career26-n16" data-title="面试思维导图" data-toc="面试思维导图" data-notes=""><div class="kicker">我的来时路 · 16</div><h2 class="c-title">面试中，怎么<span class="hl">讲清楚自己？</span></h2><div class="c-mindmap"><div class="c-branch c-tone-0"><div class="c-reveal " style="--c-delay:0.12s"><h3>专业能力</h3></div><ul><li class="c-reveal " style="--c-delay:0.48s">项目是什么</li><li class="c-reveal " style="--c-delay:0.66s">我负责什么</li><li class="c-reveal " style="--c-delay:0.84s">遇到什么困难</li><li class="c-reveal " style="--c-delay:1.02s">用什么办法解决</li><li class="c-reveal " style="--c-delay:1.20s">最后取得什么成果</li></ul></div><div class="c-branch c-tone-1"><div class="c-reveal " style="--c-delay:0.30s"><h3>个人素养与Owner意识</h3></div><ul><li class="c-reveal " style="--c-delay:0.48s">项目从哪里来</li><li class="c-reveal " style="--c-delay:0.66s">为什么这么做</li><li class="c-reveal " style="--c-delay:0.84s">最终目标是什么</li><li class="c-reveal " style="--c-delay:1.02s">上下游分别是谁</li><li class="c-reveal " style="--c-delay:1.20s">我的工作有什么作用</li></ul></div></div><p class="c-sub c-small-sub">专业能力：用STAR法则讲清项目</p></section>
+
+<section class="slide career26 " data-memo-id="career26-n17" data-title="体现竞争力" data-toc="体现竞争力" data-notes=""><div class="kicker">我的来时路 · 17</div><h2 class="c-title">如何体现自己的<span class="hl">竞争力？</span></h2><div class="c-grid c-cols-3"><div class="c-reveal c-card c-tone-0" style="--c-delay:0.12s"><span class="c-num">01</span><h3>专业能力</h3><p>项目、困难、<br>方法、成果</p></div><div class="c-reveal c-card c-tone-1" style="--c-delay:0.30s"><span class="c-num">02</span><h3>软实力</h3><p>责任意识、<br>沟通、协作</p></div><div class="c-reveal c-card c-tone-2" style="--c-delay:0.48s"><span class="c-num">03</span><h3>洞察与解决方案</h3><p>调研产品和需求，<br>思考可能的问题<br><small>基于公开信息进行判断</small></p></div></div></section>
+
+<section class="slide career26 " data-memo-id="career26-n18" data-title="打怪升级" data-toc="打怪升级" data-notes=""><div class="kicker">我的来时路 · 18</div><h2 class="c-title">从米哈游到字节跳动，<br>我是如何<span class="hl">打怪升级</span>的？</h2><div class="c-level-path"><div class="c-reveal c-path-node c-rise-0" style="--c-delay:0.12s"><span>01</span><strong>理解业务</strong></div><div class="c-reveal c-path-node c-rise-1" style="--c-delay:0.30s"><span>02</span><strong>理清上下游</strong></div><div class="c-reveal c-path-node c-rise-2" style="--c-delay:0.48s"><span>03</span><strong>主动沟通</strong></div><div class="c-reveal c-path-node c-rise-3" style="--c-delay:0.66s"><span>04</span><strong>解决问题</strong></div></div></section>
+
+<section class="slide career26 " data-memo-id="career26-n19" data-title="工作后专业度" data-toc="工作后专业度" data-notes=""><div class="kicker">我的来时路 · 19</div><h2 class="c-title">工作之后，<br>如何提升自己的<span class="hl">专业度？</span></h2><div class="c-grid c-cols-3"><div class="c-reveal c-card c-tone-0" style="--c-delay:0.12s"><span class="c-num">01</span><h3>边做边学</h3></div><div class="c-reveal c-card c-tone-1" style="--c-delay:0.30s"><span class="c-num">02</span><h3>关注行业、<br>参加交流</h3></div><div class="c-reveal c-card c-tone-2" style="--c-delay:0.48s"><span class="c-num">03</span><h3>整理经验、<br>内部分享</h3></div></div></section>
+
+<section class="slide career26 c-n20" data-memo-id="career26-n20" data-title="大厂人才" data-toc="大厂人才" data-notes=""><div class="kicker">我的来时路 · 20</div><div class="c-demand-layout"><h1>大厂到底需要<br>什么样的<span class="hl">人才？</span></h1><div class="c-demand-flow"><div class="c-reveal c-demand-node" style="--c-delay:0.12s">岗位JD</div><div class="c-reveal c-demand-node" style="--c-delay:0.30s">岗位负责什么</div><div class="c-reveal c-demand-node" style="--c-delay:0.48s">需要什么能力</div><div class="c-reveal c-demand-node" style="--c-delay:0.66s">简历呈现什么经验</div><div class="c-reveal c-demand-node" style="--c-delay:0.84s">我能提供什么解决方案</div></div></div></section>
+
+<section class="slide career26 c-n21" data-memo-id="career26-n21" data-title="求职关键问题" data-toc="求职关键问题" data-notes=""><div class="kicker">我的来时路 · 21</div><div class="c-focus"><h1 class="c-reveal " style="--c-delay:0.12s">对方需要什么？</h1><h1 class="c-reveal c-focus-answer" style="--c-delay:0.30s">我能用什么真实经历，<br>证明自己能够做到？</h1></div></section>
+
+<section class="slide career26 c-n22" data-memo-id="career26-n22" data-title="我的真实二连跳" data-toc="我的真实二连跳" data-notes=""><div class="kicker">我的来时路 · 22</div><h2 class="c-title">我的来时路：<br>从不会，到一步步走进大厂</h2><div class="c-stairs"><div class="c-reveal c-stair c-level-0" style="--c-delay:0.12s"><span class="c-num">01</span><h3>非相关专业转行</h3><p>很多东西都不会</p></div><div class="c-reveal c-stair c-level-1" style="--c-delay:0.30s"><span class="c-num">02</span><h3>进入米哈游实习</h3><p>拿到AI行业入场券<br>实习月薪<span class="c-money">8,000元</span></p></div><div class="c-reveal c-stair c-level-2" style="--c-delay:0.48s"><span class="c-num">03</span><h3>进入字节跳动</h3><p>走进头部大厂核心部门<br>正式工作后，工资翻了两倍多</p></div></div><div class="c-bridges"><div class="c-reveal " style="--c-delay:0.12s">培训让我建立了基础框架</div><div class="c-reveal " style="--c-delay:0.30s">实习让我接触真实工作，<br>也让我在工作中得到成长</div></div></section>
+
+<section class="slide career26 c-n23" data-memo-id="career26-n23" data-title="结语" data-toc="结语" data-notes=""><div class="kicker">我的来时路 · 23</div><div class="c-closing"><h1 class="c-reveal " style="--c-delay:0.12s">你认真走过的路，</h1><h1 class="c-reveal " style="--c-delay:0.30s">解决过的问题，</h1><h1 class="c-reveal " style="--c-delay:0.48s">总结下来的经验，</h1><h1 class="c-reveal c-last-line" style="--c-delay:0.66s">都会成为你继续向前的助推器。</h1></div></section>
+<!-- END career26 -->
+
+
+<!-- Added summary after page 30; detailed Q&A preserved below. -->
+<section class="slide qa48 qa48-review" data-memo-id="qa48-review" data-title="Q&amp;A｜四个问题，一起回顾" data-toc="Q&amp;A｜四个问题，一起回顾" data-notes=""><div class="kicker">Q&amp;A · 一起回顾</div><h2>四个问题，<span class="hl">一起回顾</span></h2><div class="qa48-list"><article class="qa48-row" style="--qa-delay:0.08s"><span class="qa48-number">01</span><h3>你在字节干什么？</h3><p>做 Seedance 模型效果评测与调优，把人的判断转化为优化反馈。</p></article><article class="qa48-row" style="--qa-delay:0.28s"><span class="qa48-number">02</span><h3>没有代码背景，可以转 AI 吗？难学吗？</h3><p>可以借助 AI 工具，从动手做项目、测试和修改开始。</p></article><article class="qa48-row" style="--qa-delay:0.48s"><span class="qa48-number">03</span><h3>只有高学历、AI 专业出身，才能入行吗？</h3><p>不是；学历只是筛选的一部分，还要看经验与能力能否解决岗位问题。</p></article><article class="qa48-row" style="--qa-delay:0.68s"><span class="qa48-number">04</span><h3>机会怎么发现、怎么投、怎么准备？</h3><p>先看真实招聘、选方向，再针对岗位投递，把项目经历讲透。</p></article></div></section>
+
+<section class="slide qa48 qa48-actions" data-memo-id="qa48-actions" data-title="带走这份行动清单" data-toc="带走这份行动清单" data-notes=""><div class="kicker">从听懂，到动手</div><h2>带走这份<span class="hl">行动清单</span></h2><div class="qa48-grid"><article class="qa48-task" style="--qa-delay:0.08s"><div class="qa48-task-top"><span class="qa48-check" aria-hidden="true"></span><span class="qa48-task-number">01</span></div><h3>看 JD，选方向</h3><p>找一批真实岗位，圈出反复出现的能力要求。</p></article><article class="qa48-task" style="--qa-delay:0.24s"><div class="qa48-task-top"><span class="qa48-check" aria-hidden="true"></span><span class="qa48-task-number">02</span></div><h3>盘点已有能力</h3><p>对照岗位要求，明确可用经验和需要补的能力。</p></article><article class="qa48-task" style="--qa-delay:0.40s"><div class="qa48-task-top"><span class="qa48-check" aria-hidden="true"></span><span class="qa48-task-number">03</span></div><h3>动手做真实项目</h3><p>借助 AI 工具，把想法做出来，再测试、修改。</p></article><article class="qa48-task" style="--qa-delay:0.56s"><div class="qa48-task-top"><span class="qa48-check" aria-hidden="true"></span><span class="qa48-task-number">04</span></div><h3>按岗位改简历</h3><p>把相关经历和项目放在前面，突出需求匹配。</p></article><article class="qa48-task" style="--qa-delay:0.72s"><div class="qa48-task-top"><span class="qa48-check" aria-hidden="true"></span><span class="qa48-task-number">05</span></div><h3>持续针对投递</h3><p>明确投递岗位，有意识地安排投递量。</p></article><article class="qa48-task" style="--qa-delay:0.88s"><div class="qa48-task-top"><span class="qa48-check" aria-hidden="true"></span><span class="qa48-task-number">06</span></div><h3>讲清项目并复盘</h3><p>讲清目标、分工、难点与解法，验证结果、总结经验。</p></article></div></section>
+
+<section class="slide qpage" data-memo-id="p09-q1-ask" data-title="Q1 提问" data-toc="Q1 · 你在字节干什么" data-notes="整页大字问句。">
+  <div class="hero-q">
+    <div class="kicker">Q&amp;A 1</div>
+    <p class="tiny">师弟师妹，还有很多朋友都会问——</p>
+    <h1>你在字节<span class="hl">干什么</span>啊？</h1>
+  </div>
+</section><section class="slide" data-memo-id="p21-models" data-title="产品与背后的模型" data-toc="产品与背后的模型" data-notes="即梦→Seedance（视频），可灵→Kling（视频），Gemini→Nano Banana（图像）。不要写成三家都是生视频模型。">
+  <div class="kicker">Q&amp;A 1 · 引子</div>
+  <h2>产品与背后的<span class="hl">模型</span></h2>
+  <p class="lead">大家日常用到的产品和背后的模型，不是一回事。前两家对应的是视频模型，Gemini 这边对应的是图像模型。</p>
+  <div class="model-grid">
+    <div class="model-card">
+      <img src="assets/model-jimeng.png" alt="即梦" />
+      <div class="prod">即梦</div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-chevron"/></svg></div>
+      <div class="mod">Seedance</div>
+      <span class="tag-v">视频模型</span>
+    </div>
+    <div class="model-card">
+      <img src="assets/model-kling.png" alt="可灵" />
+      <div class="prod">可灵</div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-chevron"/></svg></div>
+      <div class="mod">Kling</div>
+      <span class="tag-v">视频模型</span>
+    </div>
+    <div class="model-card">
+      <img src="assets/model-gemini.png" alt="Gemini" />
+      <div class="prod">Gemini</div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-chevron"/></svg></div>
+      <div class="mod">Nano Banana</div>
+      <span class="tag-i">图像模型</span>
+    </div>
+  </div>
+</section><section class="slide" data-memo-id="p10-q1-basic" data-title="Q1 基础" data-toc="Q1 · 基础工作" data-notes="左侧四条备注原文；右侧为本机「工作内容」评测对比图，评论已按原原则遮盖。">
+  <div class="kicker">Q&amp;A 1 · 基础</div>
+  <h2>看视频、对比、<span class="hl">打分</span></h2>
+  <div class="basic-split">
+    <div class="four-points">
+      <article class="qcard">
+        <h3><span class="ico-mark ico-c1" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-compare"/></svg></span>评什么</h3>
+        <p>对比不同模型版本，或与竞品生成的视频。</p>
+      </article>
+      <article class="qcard">
+        <h3><span class="ico-mark ico-c2" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-eye"/></svg></span>怎么看</h3>
+        <p>观察画面质量、动作自然度，以及是否符合提示词要求。</p>
+      </article>
+      <article class="qcard">
+        <h3><span class="ico-mark ico-c3" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>怎么做</h3>
+        <p>对比打分、记录偏好，找出具体问题并分析原因。</p>
+      </article>
+      <article class="qcard">
+        <h3><span class="ico-mark ico-c4" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-spark"/></svg></span>有什么用</h3>
+        <p>把人的判断转化为反馈，为模型优化提供依据。</p>
+      </article>
+    </div>
+    <div class="basic-shot">
+      <div class="win">
+        <div class="win-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+        <button class="pic pola shot" data-full="assets/work-content.jpg" data-caption="评测对比打分（评论已遮）">
+          <img src="assets/work-content.jpg" alt="评测对比打分" />
+          <span class="cap">评测对比打分（评论已遮）</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section><section class="slide" data-memo-id="p11-q1-adv" data-title="Q1 进阶" data-toc="Q1 · 进阶 RLHF" data-notes="配真实 RLHF 相关代码图。说明这是真实相关代码，不等于完整架构。">
+  <div class="kicker">Q&amp;A 1 · 进阶</div>
+  <h2>调优模型 · RLHF 强化学习链路</h2>
+  <div class="split">
+    <div class="side">
+      <p class="lead"><strong>RLHF</strong>：用人类的偏好和评测反馈去训练、优化模型，再验证效果。可以记成：<strong>人类偏好 / 评测反馈 → 训练优化 → 效果验证</strong>。</p>
+      <p class="lead">进阶部分就是走这条<strong>调优链路</strong>。一开始看不懂很正常；我当时也看不懂，现在也不需要全部看懂。</p>
+      <p class="lead">只要<strong>懂链路</strong>，会用 vibe coding 检验效果、做数据溯源，能拿出成果就行。</p>
+      <p class="tiny">右图是真实相关代码截图，用来帮助理解这条链路，并不等于完整的 RLHF 架构。</p>
+    </div>
+    <div>
+      <button class="pic pola shot" data-full="assets/rlhf-code.jpg" data-caption="调优模型 · RLHF 相关代码">
+        <i class="tape"></i>
+        <img src="assets/rlhf-code.jpg" alt="调优模型 · RLHF 相关代码" />
+        <span class="cap">调优模型 · RLHF 相关代码</span>
+      </button>
+    </div>
+  </div>
+</section><section class="slide photo-story" data-memo-id="p22-vibecoding" data-title="vibecoding就是普通人学的" data-toc="vibe coding 就是普通人学的" data-notes="四张小红书案例图。底部一句点题。">
+  <h2>vibecoding就是普通人学的</h2>
+  <div class="photo-stage">
+  <div class="pics vibe-grid">
+    <button class="pic pola shot" data-full="assets/vibe-01.jpg" data-caption="">
+        <i class="tape"></i>
+        <img src="assets/vibe-01.jpg" alt="图片" />
+        
+      </button>
+<button class="pic pola shot" data-full="assets/vibe-02.jpg" data-caption="">
+        <i class="tape"></i>
+        <img src="assets/vibe-02.jpg" alt="图片" />
+        
+      </button>
+<button class="pic pola shot" data-full="assets/vibe-03.jpg" data-caption="">
+        <i class="tape"></i>
+        <img src="assets/vibe-03.jpg" alt="图片" />
+        
+      </button>
+<button class="pic pola shot" data-full="assets/vibe-04.jpg" data-caption="">
+        <i class="tape"></i>
+        <img src="assets/vibe-04.jpg" alt="图片" />
+        
+      </button>
+  </div>
+    </div>
+  <div class="photo-caption-bar">
+    <p>小红书上的vibe coding教程和案例，就告诉我们vibe coding就是普通人玩儿的。</p>
+  </div>
+</section><section class="slide qpage" data-memo-id="p12-q2-ask" data-title="Q2 提问" data-toc="Q2 · 没有代码背景能转吗" data-notes="整页问句。">
+  <div class="hero-q">
+    <div class="kicker">Q&amp;A 2</div>
+    <h1>没有代码背景可以转型 AI 方向吗？难学吗？</h1>
+  </div>
+</section><section class="slide qpage code-hero" data-memo-id="p13-q2-ans" data-title="Q2 答案·敢学" data-toc="Q2 · 答案是当然可以" data-notes="只保留大标题和「答案是当然可以。」代码背景用真实相关代码图做低对比处理。">
+  <div class="hero-ans">
+    <p class="punch">答案是<span class="hl">当然可以</span>。</p>
+  </div>
+</section><section class="slide project-embed" data-memo-id="p14-projects" data-title="小红书电商问答" data-toc="项目 · 小红书" data-notes="本页内嵌本地 rag.html，无需再点开。不是完整在线系统。原三个项目页的备注仍挂在此 id。">
+  <div class="kicker">动手做过的事 · 1/3</div>
+  <div class="embed-head">
+    <div>
+      <h2>小红书电商问答</h2>
+      <p class="lead">用 <strong>RAG</strong> 和向量库，根据已有资料回答问题，而不是凭空编。</p>
+    </div>
+    <button type="button" class="proj-btn" data-src="projects/rag.html" data-proj-title="小红书电商 RAG 知识库">放大查看</button>
+  </div>
+  <div class="embed-frame">
+    <div class="win">
+    <div class="win-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+    <iframe class="proj-embed" data-src="projects/rag.html" title="小红书电商 RAG 知识库" sandbox="allow-scripts allow-same-origin allow-forms" loading="lazy"></iframe>
+    </div>
+  </div>
+  <p class="tiny">本页已直接内嵌本地离线页面，不用再点开也能看；不是部署好的完整在线系统。</p>
+</section><section class="slide project-embed" data-memo-id="p23-tvc" data-title="多 Agent 生产 TVC" data-toc="项目 · TVC" data-notes="本页内嵌本地 tvc.html，无需再点开。不是完整在线系统。">
+  <div class="kicker">动手做过的事 · 2/3</div>
+  <div class="embed-head">
+    <div>
+      <h2>多 Agent 生产 TVC</h2>
+      <p class="lead">在公司搭过让多个 <strong>Agent</strong> 协作、自动生产视频广告的工作流。</p>
+    </div>
+    <button type="button" class="proj-btn" data-src="projects/tvc.html" data-proj-title="多 Agent 生产 TVC">放大查看</button>
+  </div>
+  <div class="embed-frame">
+    <div class="win">
+    <div class="win-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+    <iframe class="proj-embed" data-src="projects/tvc.html" title="多 Agent 生产 TVC" sandbox="allow-scripts allow-same-origin allow-forms" loading="lazy"></iframe>
+    </div>
+  </div>
+  <p class="tiny">本页已直接内嵌本地离线页面，不用再点开也能看；不是部署好的完整在线系统。</p>
+</section><section class="slide project-embed" data-memo-id="p24-manhua" data-title="multi-agent 漫剧" data-toc="项目 · 漫剧" data-notes="本页内嵌本地 manhua.html，无需再点开。不是完整在线系统。">
+  <div class="kicker">动手做过的事 · 3/3</div>
+  <div class="embed-head">
+    <div>
+      <h2>multi-agent 漫剧</h2>
+      <p class="lead">题材经过剧本、分镜和视频生成，变成能看的作品。</p>
+    </div>
+    <button type="button" class="proj-btn" data-src="projects/manhua.html" data-proj-title="多 Agent 生产漫剧">放大查看</button>
+  </div>
+  <div class="embed-frame">
+    <div class="win">
+    <div class="win-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+    <iframe class="proj-embed" data-src="projects/manhua.html" title="多 Agent 生产漫剧" sandbox="allow-scripts allow-same-origin allow-forms" loading="lazy"></iframe>
+    </div>
+  </div>
+  <p class="tiny">本页已直接内嵌本地离线页面，不用再点开也能看；不是部署好的完整在线系统。</p>
+</section><section class="slide" data-memo-id="p15-works" data-title="三件作品" data-toc="三件作品" data-notes="三条成片视频：media/tvc.mp4、comic-1.mp4、comic-2.mp4。">
+  <div class="kicker">作品</div>
+  <h2>三条成片，落地后可直接播</h2>
+  <p class="tiny">视频尚未逐条审看，这里只放播放位置。若还没拷到 media 文件夹，请用卡片里的「选择本地文件」。</p>
+  <div class="vid-grid">
+    <article class="vid-card">
+      <h3>TVC 广告</h3>
+      <p class="tiny">multi-agent 自动化生产 · 按文件名对应</p>
+      <div class="vid-wrap" data-src="media/tvc.mp4">
+        <video preload="metadata" controls playsinline></video>
+        <div class="vid-fallback">
+          <span>发布包未包含视频本体。请把文件放到 <b>media/tvc.mp4</b>，或选择本地文件。</span>
+          <input type="file" accept="video/*" />
+        </div>
+      </div>
+    </article>
+    <article class="vid-card">
+      <h3>漫剧作品一</h3>
+      <p class="tiny">multi-agent 自动化生成 · 未与「成片1 / 序幕」对应</p>
+      <div class="vid-wrap" data-src="media/comic-1.mp4">
+        <video preload="metadata" controls playsinline></video>
+        <div class="vid-fallback">
+          <span>请放到 <b>media/comic-1.mp4</b>，或选择本地文件。</span>
+          <input type="file" accept="video/*" />
+        </div>
+      </div>
+    </article>
+    <article class="vid-card">
+      <h3>漫剧作品二</h3>
+      <p class="tiny">multi-agent 自动化生成 · 未与「成片1 / 序幕」对应</p>
+      <div class="vid-wrap" data-src="media/comic-2.mp4">
+        <video preload="metadata" controls playsinline></video>
+        <div class="vid-fallback">
+          <span>请放到 <b>media/comic-2.mp4</b>，或选择本地文件。</span>
+          <input type="file" accept="video/*" />
+        </div>
+      </div>
+    </article>
+  </div>
+</section><section class="slide qpage" data-memo-id="p16-q3-ask" data-title="Q3 提问" data-toc="Q3 · 只有高学历才能进 AI？" data-notes="整页问句。">
+  <div class="hero-q">
+    <div class="kicker">Q&amp;A 3</div>
+    <p class="tiny">很多人会问——</p>
+    <h1>是不是只有高学历，或者人工智能专业出身，才能进入 AI 行业？</h1>
+  </div>
+</section><section class="slide photo-story" data-memo-id="p17-q3-ans" data-title="Q3 学历" data-toc="Q3 · 学历不是唯一标准" data-notes="三张专科进大厂图是他人案例，不是本人。点击可分别放大。">
+  <div class="kicker">Q&amp;A 3 · 答案</div>
+  <h2>不是只有高学历才能进 AI</h2>
+  <div class="photo-stage">
+  <div class="pics edu-row">
+    <button class="pic pola shot" style="--ar:1080/1936" data-full="assets/edu-chat.jpg" data-caption="他人案例 · 沟通记录">
+        <i class="tape"></i>
+        <img src="assets/edu-chat.jpg" alt="他人案例 · 沟通记录" />
+        <span class="cap">他人案例 · 沟通记录</span>
+      </button>
+    <button class="pic pola shot" style="--rot:.5deg;--ar:1179/1839" data-full="assets/edu-offer.jpg" data-caption="他人案例 · 录用通知书">
+        <i class="tape"></i>
+        <img src="assets/edu-offer.jpg" alt="他人案例 · 录用通知书" />
+        <span class="cap">他人案例 · 录用通知书</span>
+      </button>
+    <button class="pic pola shot" style="--rot:-.6deg;--ar:1366/1738" data-full="assets/edu-resume.jpg" data-caption="他人案例 · 项目经历">
+        <i class="tape"></i>
+        <img src="assets/edu-resume.jpg" alt="他人案例 · 项目经历" />
+        <span class="cap">他人案例 · 项目经历</span>
+      </button>
+  </div>
+  </div>
+  <div class="photo-caption-bar">
+    <p>其实不是。下面三张是他人案例，不是我本人的聊天、录用通知或简历。点击可单独放大。</p>
+  </div>
+  <div class="q3-mini">
+    <article class="qcard">
+      <h3>团队里什么背景都有</h3>
+      <p>既有清华北大，也有双非、专科背景的同学，大家做着相似的工作。</p>
+    </article>
+    <article class="qcard">
+      <h3>学历只是筛选的一部分</h3>
+      <p>公司还要看：你的经验和能力，能不能解决它眼前的问题。</p>
+    </article>
+    <article class="qcard">
+      <h3>我看过 HR 筛简历</h3>
+      <p>这是我的观察，不是官方统计。</p>
+    </article>
+    <article class="qcard">
+      <h3>让公司看见你能接住</h3>
+      <p>不必样样比别人强，但要让人看见：这件要做的事，你能接住。</p>
+    </article>
+  </div>
+</section><section class="slide qpage" data-memo-id="p18-q4-ask" data-title="Q4 提问" data-toc="Q4 · 机会怎么发现和准备？" data-notes="整页问句。">
+  <div class="hero-q">
+    <div class="kicker">Q&amp;A 4</div>
+    <h1>机会怎么发现、怎么投、怎么准备？</h1>
+  </div>
+</section><section class="slide" data-memo-id="p19-q4-ans" data-title="Q4 发现投递准备" data-toc="Q4 · 先看市场再投递" data-notes="关键词按备注展示。第三张卡片改为针对市场需求投递，提到投递量和投递岗位，不编数字。">
+  <div class="kicker">Q&amp;A 4 · 答案</div>
+  <h2>先看市场，再针对投递</h2>
+  <div class="kw-row">
+    <span class="chip">AI模型评测</span>
+    <span class="chip">AI算法策略优化</span>
+    <span class="chip">AI产品</span>
+    <span class="chip">AI数据运营（美学）</span>
+    <span class="chip">具身智能</span>
+    <span class="chip">世界模型</span>
+  </div>
+  <div class="stack-wrap">
+    <article class="stack-card">
+      <h3>1. 先看市场，选方向</h3>
+      <p>去招聘平台找一批感兴趣的岗位，看它们反复要求哪些能力和项目经验，再对照自己：已经具备什么，还要补什么。</p>
+    </article>
+    <article class="stack-card">
+      <h3>2. 热门概念要对照真实招聘</h3>
+      <p>多模态、具身智能可以关注，但具体有没有适合你的机会，还是要看实际招聘，不能只追名词。</p>
+    </article>
+    <article class="stack-card">
+      <h3>3. 针对市场需求投递</h3>
+      <p>不要拿一份通用简历投所有岗位。先想清楚投递岗位，再有意识地安排投递量。投 Agent 岗，就重点展示任务拆解、工具调用、多 Agent 协作；其他经历围绕需求分清主次。</p>
+    </article>
+    <article class="stack-card">
+      <h3>4. 面试把经历讲透</h3>
+      <p>为什么做这个项目，原理是什么，你负责哪一块，遇到什么困难，为什么选这个方案，怎么和别人协作，又是怎么把结果交付出来的。</p>
+    </article>
+  </div>
+</section><section class="slide cover" data-memo-id="p20-close" data-title="建议轻收口" data-toc="建议轻收口" data-notes="建议页，回扣标题。">
+  <div class="cover-copy">
+    <div class="cover-card">
+      <div class="kicker">建议轻收口 · 非原稿段落</div>
+      <h1>如何在<span class="hl">AI</span>时代<br>成功转型？</h1>
+      <p class="lead" style="margin-top:.8rem">向往大厂、向往 AI，都可以。<br>更要紧的是敢学、敢做，再把它做完。</p>
+    </div>
+  </div>
+  <div class="cover-photo">
+    <button class="pic" data-full="assets/w_garden.jpg" data-caption="园区一角">
+      <img src="assets/w_garden.jpg" alt="园区一角" />
+    </button>
+    <div class="cover-fade" aria-hidden="true"></div>
+  </div>
+</section>
+
+<div class="notes" id="notes"></div>
+<div class="bar">
+  <div class="dots" id="dots"></div>
+  <div class="credit" style="flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">视觉参考 DeckGist · About Me Personal Story（内页按封面语言推断，未逐页核对原模板）</div>
+  <div class="nav">
+    <span id="pageLabel">1 / 48</span>
+    <button type="button" id="btnPrev">上一页</button>
+    <button type="button" id="btnNext">下一页</button>
+    <button type="button" id="btnFull">全屏 F</button>
+    <button type="button" id="btnToc">收起目录</button>
+    <button type="button" id="btnMemo">编辑备注</button>
+    <button type="button" id="btnNotes">口播稿 N</button>
+  </div>
+</div>
+
+</div></div>
+
+<aside id="tocPanel" class="toc-panel open" aria-label="演示目录">
+  <div class="toc-head">
+    <strong>目录</strong>
+    <button type="button" id="btnTocClose">收起</button>
+  </div>
+  <nav id="tocList" class="toc-list"></nav>
+</aside>
+
+<aside id="memoPanel" class="memo-panel" aria-label="本页可编辑备注">
+  <div class="memo-head">
+    <strong>本页备注</strong>
+    <span id="memoPageTag"></span>
+  </div>
+  <p class="memo-hint">仅保存在此浏览器，可导出备份。这里不会改动口播稿。</p>
+  <p id="memoStatus" class="memo-status" role="status"></p>
+  <textarea id="memoInput" placeholder="写下这一页想补充的话…"></textarea>
+  <details>
+    <summary>查看本页口播稿（只读）</summary>
+    <div id="memoScript" class="memo-script"></div>
+  </details>
+  <div class="memo-actions">
+    <button type="button" id="btnMemoExportJson">导出 JSON</button>
+    <button type="button" id="btnMemoExportMd">导出 Markdown</button>
+    <label>导入 JSON<input type="file" id="memoImport" accept="application/json,.json" /></label>
+    <button type="button" id="btnMemoClose">收起</button>
+  </div>
+</aside>
+
+<div id="lightbox" aria-modal="true" role="dialog" aria-label="照片放大">
+  <button type="button" class="lb-btn lb-close" id="lbClose" aria-label="关闭">×</button>
+  <button type="button" class="lb-btn lb-prev" id="lbPrev" aria-label="上一张">‹</button>
+  <figure>
+    <img id="lbImg" alt="" />
+    <figcaption id="lbCap"></figcaption>
+    <div id="lbNoteWrap" class="lb-note-wrap" hidden>
+      <label for="lbNoteInput">这张图的备注</label>
+      <textarea id="lbNoteInput" rows="3" placeholder="写下这张图的备注…"></textarea>
+    </div>
+  </figure>
+  <button type="button" class="lb-btn lb-next" id="lbNext" aria-label="下一张">›</button>
+</div>
+
+<div id="projOverlay" class="proj-overlay" aria-modal="true" role="dialog" aria-label="项目页面">
+  <header>
+    <strong id="projTitle">项目页面</strong>
+    <button type="button" id="projClose">关闭</button>
+  </header>
+  <iframe id="projFrame" title="项目页面" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+  <p class="hint">本地离线页面，不是完整在线系统。按 Esc 或点关闭即可返回演示。</p>
+</div>
+
+<script>
+
+
+(function () {
+  const slides = [...document.querySelectorAll(".slide")];
+  const dots = document.getElementById("dots");
+  const pageLabel = document.getElementById("pageLabel");
+  const notesEl = document.getElementById("notes");
+  const lightbox = document.getElementById("lightbox");
+  const lbImg = document.getElementById("lbImg");
+  const lbCap = document.getElementById("lbCap");
+  const lbNoteWrap = document.getElementById("lbNoteWrap");
+  const lbNoteInput = document.getElementById("lbNoteInput");
+  let i = 0, lbOpen = false, lbList = [], lbIdx = 0, projOpen = false;
+
+  slides.forEach((s, idx) => {
+    const b = document.createElement("button");
+    b.className = "dot" + (idx === 0 ? " on" : "");
+    b.type = "button";
+    b.title = s.dataset.title || ("第" + (idx + 1) + "页");
+    b.addEventListener("click", () => go(idx));
+    dots.appendChild(b);
+  });
+
+  function showNotes() {
+    const raw = slides[i].dataset.notes || "";
+    notesEl.innerHTML = "<b>" + (slides[i].dataset.title || "") + "</b>　" + raw;
+  }
+  function pauseVideos() {
+    document.querySelectorAll("video").forEach((v) => { try { v.pause(); } catch (e) {} });
+  }
+  function go(n) {
+    if (lbOpen) return;
+    if (typeof projOpen !== "undefined" && projOpen) closeProj();
+    persistCurrentMemo();
+    pauseVideos();
+    i = (n + slides.length) % slides.length;
+    slides.forEach((s, k) => s.classList.toggle("active", k === i));
+    [...dots.children].forEach((d, k) => d.classList.toggle("on", k === i));
+    pageLabel.textContent = (i + 1) + " / " + slides.length;
+    showNotes();
+    fillMemoUI();
+    highlightToc();
+    armProjectEmbeds();
+    cancelPhotoStory();
+    if (slides[i] && slides[i].querySelector("[data-photo-story]")) {
+      var duoPics = slides[i].querySelectorAll("[data-photo-story] .pic");
+      if (duoPics.length === 2) {
+        duoPics.forEach(function (pic) { pic.classList.add("is-waiting"); });
+      }
+    }
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { playPhotoStory(slides[i]); });
+    });
+  }
+
+  /* ---- 展示图 hover 内层包装：外层可做归位，内层做放大 ---- */
+  document.querySelectorAll(".slide:not(.cover) .pic").forEach((pic) => {
+    if (pic.querySelector(":scope > .pic-zoom")) return;
+    const img = pic.querySelector(":scope > img");
+    if (!img) return;
+    const zoom = document.createElement("span");
+    zoom.className = "pic-zoom";
+    img.replaceWith(zoom);
+    zoom.appendChild(img);
+  });
+
+  /* ---- 逐张：中间大图弹出 → 归位 → 下一张 ---- */
+  const photoReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let photoToken = 0;
+  let photoTimers = [];
+  let photoAnims = [];
+  let photoRunning = false;
+  let photoHero = null;
+
+  function clearPhotoRuntime() {
+    photoTimers.forEach(clearTimeout);
+    photoTimers = [];
+    photoAnims.forEach((a) => { try { a.cancel(); } catch (e) {} });
+    photoAnims = [];
+    if (photoHero && photoHero.parentNode) photoHero.parentNode.removeChild(photoHero);
+    photoHero = null;
+    photoRunning = false;
+    document.querySelectorAll(".photo-fs,.photo-hero").forEach((h) => h.remove());
+  }
+
+  function cancelPhotoStory() {
+    photoToken += 1;
+    clearPhotoRuntime();
+  }
+
+  function photoWait(ms, token) {
+    return new Promise((resolve) => {
+      const id = setTimeout(() => resolve(token === photoToken), ms);
+      photoTimers.push(id);
+    });
+  }
+
+  function runAnim(el, keyframes, options, token) {
+    return new Promise((resolve) => {
+      if (token !== photoToken) { resolve(false); return; }
+      const anim = el.animate(keyframes, options);
+      photoAnims.push(anim);
+      anim.addEventListener("finish", () => resolve(token === photoToken), { once: true });
+      anim.addEventListener("cancel", () => resolve(false), { once: true });
+    });
+  }
+
+  function commitAnims(el) {
+    if (!el) return;
+    el.getAnimations().forEach((a) => {
+      try { a.commitStyles(); } catch (err) {}
+      try { a.cancel(); } catch (err) {}
+    });
+  }
+
+  function finishPhotoSlots(slide) {
+    if (!slide) return;
+    slide.querySelectorAll(".pic.is-waiting").forEach((el) => el.classList.remove("is-waiting"));
+    document.querySelectorAll(".photo-fs,.photo-hero").forEach((h) => h.remove());
+  }
+
+  function skipPhotoStory(slide) {
+    photoToken += 1;
+    clearPhotoRuntime();
+    finishPhotoSlots(slide);
+  }
+
+  function injectReplay(slide) {
+    if (!slide || slide.querySelector(":scope > .photo-replay")) return;
+    const stage = slide.querySelector("[data-photo-story]");
+    if (!stage || stage.querySelectorAll(".pic").length !== 2) return;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "photo-replay";
+    btn.textContent = "重播图片";
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      playPhotoStory(slide);
+    });
+    slide.appendChild(btn);
+  }
+
+  document.querySelectorAll("section.slide.photo-duo").forEach(injectReplay);
+
+  function viewportContainRect(nw, nh) {
+    const padX = 28;
+    const padY = 28;
+    const maxW = Math.max(120, window.innerWidth - padX * 2);
+    const maxH = Math.max(120, window.innerHeight - padY * 2);
+    const scale = Math.min(maxW / Math.max(nw, 1), maxH / Math.max(nh, 1));
+    const width = Math.max(1, nw * scale);
+    const height = Math.max(1, nh * scale);
+    return {
+      left: (window.innerWidth - width) / 2,
+      top: (window.innerHeight - height) / 2,
+      width,
+      height
+    };
+  }
+
+  function waitImg(img) {
+    if (img.complete && img.naturalWidth) return Promise.resolve();
+    return new Promise((resolve) => {
+      img.addEventListener("load", resolve, { once: true });
+      img.addEventListener("error", resolve, { once: true });
+    });
+  }
+
+  async function playPhotoStory(slide) {
+    const stage = slide && slide.querySelector("[data-photo-story]");
+    if (!stage) {
+      cancelPhotoStory();
+      return;
+    }
+    const pics = [...stage.querySelectorAll(".pic")];
+    cancelPhotoStory();
+    const token = photoToken;
+    document.querySelectorAll(".pic.is-waiting").forEach((el) => {
+      if (!slide.contains(el)) el.classList.remove("is-waiting");
+    });
+    if (pics.length !== 2 || photoReduced.matches) {
+      finishPhotoSlots(slide);
+      return;
+    }
+    pics.forEach((pic) => pic.classList.add("is-waiting"));
+
+    const hero = document.createElement("div");
+    hero.className = "photo-fs";
+    hero.setAttribute("aria-hidden", "true");
+    const frame = document.createElement("div");
+    frame.className = "photo-fs-frame";
+    const himg = document.createElement("img");
+    himg.alt = "";
+    frame.appendChild(himg);
+    hero.appendChild(frame);
+    document.body.appendChild(hero);
+    photoHero = hero;
+    photoRunning = true;
+    hero.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      skipPhotoStory(slide);
+    });
+
+    const ease = "cubic-bezier(.22,.61,.36,1)";
+    const popMs = 420;
+    const holdMs = 1000;
+    const settleMs = 560;
+    const gapMs = 300;
+
+    for (let idx = 0; idx < pics.length; idx++) {
+      if (token !== photoToken) return;
+      const pic = pics[idx];
+      const srcImg = pic.querySelector("img");
+      if (!srcImg) continue;
+      himg.src = srcImg.currentSrc || srcImg.src;
+      himg.alt = srcImg.alt || "";
+      await waitImg(himg);
+      if (himg.decode) { try { await himg.decode(); } catch (err) {} }
+      if (token !== photoToken) return;
+      commitAnims(frame);
+      commitAnims(hero);
+      const nw = himg.naturalWidth || srcImg.naturalWidth || 1600;
+      const nh = himg.naturalHeight || srcImg.naturalHeight || 1200;
+      const rect = viewportContainRect(nw, nh);
+      frame.style.left = rect.left + "px";
+      frame.style.top = rect.top + "px";
+      frame.style.width = rect.width + "px";
+      frame.style.height = rect.height + "px";
+      frame.style.opacity = "0";
+      frame.style.transform = "scale(.92)";
+      hero.style.display = "block";
+      hero.style.backgroundColor = "rgba(8, 8, 16, 0.84)";
+
+      const popped = await runAnim(frame, [
+        { opacity: 0, transform: "scale(.92)" },
+        { opacity: 1, transform: "scale(1)" }
+      ], { duration: popMs, easing: ease, fill: "forwards" }, token);
+      if (!popped) return;
+      commitAnims(frame);
+      if (!(await photoWait(holdMs, token))) return;
+      if (token !== photoToken) return;
+
+      const slot = pic.getBoundingClientRect();
+      const from = {
+        left: parseFloat(frame.style.left),
+        top: parseFloat(frame.style.top),
+        width: parseFloat(frame.style.width),
+        height: parseFloat(frame.style.height)
+      };
+      const to = {
+        left: slot.left,
+        top: slot.top,
+        width: slot.width,
+        height: slot.height
+      };
+      const settled = await Promise.all([
+        runAnim(frame, [
+          { left: from.left + "px", top: from.top + "px", width: from.width + "px", height: from.height + "px", opacity: 1 },
+          { left: to.left + "px", top: to.top + "px", width: to.width + "px", height: to.height + "px", opacity: 1 }
+        ], { duration: settleMs, easing: ease, fill: "forwards" }, token),
+        runAnim(hero, [
+          { backgroundColor: "rgba(8, 8, 16, 0.84)" },
+          { backgroundColor: "rgba(8, 8, 16, 0)" }
+        ], { duration: settleMs, easing: ease, fill: "forwards" }, token)
+      ]);
+      if (!settled[0]) return;
+      commitAnims(frame);
+      commitAnims(hero);
+      pic.classList.remove("is-waiting");
+      hero.style.display = "none";
+      frame.style.transform = "none";
+      if (!(await photoWait(gapMs, token))) return;
+    }
+
+    if (token === photoToken) {
+      photoRunning = false;
+      if (photoHero && photoHero.parentNode) photoHero.parentNode.removeChild(photoHero);
+      photoHero = null;
+    }
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (!photoRunning) return;
+    if (e.key !== "Escape") return;
+    e.preventDefault();
+    e.stopPropagation();
+    const slide = document.querySelector("section.slide.active.photo-duo");
+    if (slide) skipPhotoStory(slide);
+  }, true);
+
+  if (window.ResizeObserver) {
+    const deckEl = document.querySelector(".deck");
+    let lastW = 0, lastH = 0, roReady = false;
+    if (deckEl) {
+      const ro = new ResizeObserver((entries) => {
+        const cr = entries[0].contentRect;
+        const dw = Math.abs(cr.width - lastW);
+        const dh = Math.abs(cr.height - lastH);
+        lastW = cr.width;
+        lastH = cr.height;
+        if (!roReady) { roReady = true; return; }
+        if (!photoRunning) return;
+        if (dw < 30 && dh < 30) return;
+        const slide = document.querySelector("section.slide.active.photo-story");
+        if (slide) skipPhotoStory(slide);
+      });
+      ro.observe(deckEl);
+    }
+  }
+
+  function armProjectEmbeds() {
+    const slide = slides[i];
+    if (!slide) return;
+    slide.querySelectorAll("iframe.proj-embed[data-src]").forEach(function (f) {
+      const src = f.getAttribute("data-src");
+      if (src && f.getAttribute("src") !== src) f.setAttribute("src", src);
+    });
+  }
+  showNotes();
+
+  function picsOnPage() {
+    return [...slides[i].querySelectorAll(".pic[data-full]")];
+  }
+  function openLb(btn) {
+    lbList = picsOnPage();
+    lbIdx = Math.max(0, lbList.indexOf(btn));
+    renderLb();
+    lightbox.classList.add("show");
+    lbOpen = true;
+  }
+  function imgNoteValue(el) {
+    if (!el) return "";
+    const id = el.getAttribute("data-img-note-id");
+    if (!id) return "";
+    if (memoStore.imageNotes && Object.prototype.hasOwnProperty.call(memoStore.imageNotes, id)) {
+      return memoStore.imageNotes[id];
+    }
+    return el.getAttribute("data-img-note") || "";
+  }
+  function persistLbImageNote() {
+    if (!lbList[lbIdx] || !lbNoteInput) return;
+    const el = lbList[lbIdx];
+    const id = el.getAttribute("data-img-note-id");
+    if (!id) return;
+    if (!memoStore.imageNotes) memoStore.imageNotes = {};
+    memoStore.imageNotes[id] = lbNoteInput.value;
+    writeMemoStore();
+  }
+  function renderLb() {
+    const el = lbList[lbIdx];
+    if (!el) return;
+    lbImg.src = el.getAttribute("data-full");
+    lbImg.alt = el.querySelector("img") ? el.querySelector("img").alt : "";
+    lbCap.textContent = el.getAttribute("data-caption") || el.getAttribute("data-cap") || "";
+    const id = el.getAttribute("data-img-note-id");
+    if (id && lbNoteWrap) {
+      lightbox.classList.add("has-img-note");
+      lbNoteWrap.hidden = false;
+      lbNoteInput.value = imgNoteValue(el);
+    } else if (lbNoteWrap) {
+      lightbox.classList.remove("has-img-note");
+      lbNoteWrap.hidden = true;
+      lbNoteInput.value = "";
+    }
+  }
+  function closeLb() {
+    persistLbImageNote();
+    lightbox.classList.remove("show");
+    lightbox.classList.remove("has-img-note");
+    lbOpen = false;
+    lbImg.removeAttribute("src");
+  }
+  function lbNav(d) {
+    if (!lbList.length) return;
+    persistLbImageNote();
+    lbIdx = (lbIdx + d + lbList.length) % lbList.length;
+    renderLb();
+  }
+
+  document.querySelectorAll(".pic[data-full]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openLb(btn);
+    });
+  });
+  document.querySelectorAll(".img-note-open").forEach((b) => {
+    b.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const id = b.getAttribute("data-for-img");
+      const pic = document.querySelector('.pic[data-img-note-id="' + id + '"]');
+      if (pic) openLb(pic);
+    });
+  });
+  lightbox.addEventListener("click", (e) => { if (e.target === lightbox) closeLb(); });
+  document.getElementById("lbClose").onclick = closeLb;
+  document.getElementById("lbPrev").onclick = (e) => { e.stopPropagation(); lbNav(-1); };
+  document.getElementById("lbNext").onclick = (e) => { e.stopPropagation(); lbNav(1); };
+
+  document.querySelectorAll(".vid-wrap").forEach((wrap) => {
+    const video = wrap.querySelector("video");
+    const fallback = wrap.querySelector(".vid-fallback");
+    const input = wrap.querySelector("input[type=file]");
+    const src = wrap.dataset.src;
+    fallback.hidden = false;
+    wrap.classList.add("missing");
+    const markReady = () => {
+      wrap.classList.add("ready");
+      wrap.classList.remove("missing");
+      fallback.hidden = true;
+    };
+    const markMissing = () => {
+      wrap.classList.remove("ready");
+      wrap.classList.add("missing");
+      fallback.hidden = false;
+    };
+    video.addEventListener("loadeddata", markReady);
+    video.addEventListener("error", markMissing);
+    ["click", "mousedown"].forEach((ev) => {
+      wrap.addEventListener(ev, (e) => e.stopPropagation());
+      video.addEventListener(ev, (e) => e.stopPropagation());
+    });
+    video.setAttribute("src", src);
+    video.load();
+    input.addEventListener("change", () => {
+      const f = input.files && input.files[0];
+      if (!f) return;
+      video.src = URL.createObjectURL(f);
+      video.load();
+    });
+  });
+
+  document.getElementById("btnNext").onclick = () => go(i + 1);
+  document.getElementById("btnPrev").onclick = () => go(i - 1);
+  document.getElementById("btnFull").onclick = () => {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+    else document.exitFullscreen?.();
+  };
+  document.getElementById("btnNotes").onclick = () => notesEl.classList.toggle("show");
+
+  const MEMO_KEY = "hebut-deckgist-user-memos-v1";
+  const memoPanel = document.getElementById("memoPanel");
+  const memoInput = document.getElementById("memoInput");
+  const memoStatus = document.getElementById("memoStatus");
+  const memoPageTag = document.getElementById("memoPageTag");
+  const memoScript = document.getElementById("memoScript");
+  const btnMemo = document.getElementById("btnMemo");
+  let memoStore = { version: 1, notes: {}, imageNotes: {} };
+  let memoTimer = null;
+
+  function memoId() {
+    return slides[i].getAttribute("data-memo-id") || ("page-" + (i + 1));
+  }
+  function setMemoStatus(msg, isErr) {
+    memoStatus.textContent = msg || "";
+    memoStatus.classList.toggle("err", !!isErr);
+  }
+  function readMemoStore() {
+    try {
+      const raw = localStorage.getItem(MEMO_KEY);
+      if (!raw) return { version: 1, notes: {}, imageNotes: {} };
+      const data = JSON.parse(raw);
+      const src = (data && typeof data.notes === "object" && data.notes) ? data.notes : (data && typeof data === "object" ? data : {});
+      const notes = {};
+      Object.keys(src).forEach((k) => {
+        if (k === "version" || k === "savedAt" || k === "notes" || k === "imageNotes") return;
+        if (typeof src[k] === "string") notes[k] = src[k];
+      });
+      if (data && data.notes && typeof data.notes === "object") {
+        Object.keys(data.notes).forEach((k) => {
+          if (typeof data.notes[k] === "string") notes[k] = data.notes[k];
+        });
+      }
+      const imageNotes = {};
+      if (data && data.imageNotes && typeof data.imageNotes === "object") {
+        Object.keys(data.imageNotes).forEach((k) => {
+          if (typeof data.imageNotes[k] === "string") imageNotes[k] = data.imageNotes[k];
+        });
+      }
+      return { version: 1, notes: notes, imageNotes: imageNotes };
+    } catch (err) {
+      return { version: 1, notes: {}, imageNotes: {} };
+    }
+  }
+  function writeMemoStore() {
+    try {
+      localStorage.setItem(MEMO_KEY, JSON.stringify({
+        version: 1,
+        savedAt: new Date().toISOString(),
+        notes: memoStore.notes,
+        imageNotes: memoStore.imageNotes || {}
+      }));
+      setMemoStatus("已保存在此浏览器（不是云端）");
+      return true;
+    } catch (err) {
+      setMemoStatus("保存失败：浏览器无法写入本地存储。请导出备份。", true);
+      return false;
+    }
+  }
+  function persistCurrentMemo() {
+    if (!memoInput) return;
+    memoStore.notes[memoId()] = memoInput.value;
+    writeMemoStore();
+  }
+  function fillMemoUI() {
+    const id = memoId();
+    const title = slides[i].dataset.title || ("第" + (i + 1) + "页");
+    memoPageTag.textContent = (i + 1) + " / " + slides.length + " · " + title;
+    memoInput.value = memoStore.notes[id] || "";
+    memoScript.textContent = slides[i].dataset.notes || "（本页没有口播稿）";
+  }
+  function openMemo() {
+    if (tocPanel.classList.contains("open")) closeToc(false);
+    memoPanel.classList.add("open");
+    btnMemo.textContent = "收起备注";
+    fillMemoUI();
+    syncRail();
+  }
+  function closeMemo() {
+    persistCurrentMemo();
+    memoPanel.classList.remove("open");
+    btnMemo.textContent = "编辑备注";
+    syncRail();
+  }
+  function toggleMemo() {
+    if (memoPanel.classList.contains("open")) closeMemo();
+    else openMemo();
+  }
+  function downloadText(filename, text, mime) {
+    const blob = new Blob([text], { type: mime });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+  function collectImageNotes() {
+    const out = Object.assign({}, memoStore.imageNotes || {});
+    document.querySelectorAll("[data-img-note-id]").forEach((el) => {
+      const id = el.getAttribute("data-img-note-id");
+      if (!id) return;
+      if (!Object.prototype.hasOwnProperty.call(out, id)) out[id] = el.getAttribute("data-img-note") || "";
+    });
+    return out;
+  }
+  function exportJson() {
+    persistCurrentMemo();
+    persistLbImageNote();
+    const payload = {
+      version: 1,
+      savedAt: new Date().toISOString(),
+      notes: memoStore.notes,
+      imageNotes: collectImageNotes()
+    };
+    downloadText("如何在AI时代成功转型-备注.json", JSON.stringify(payload, null, 2), "application/json");
+    setMemoStatus("已导出 JSON 文件，请自行保存");
+  }
+  function exportMd() {
+    persistCurrentMemo();
+    const lines = ["# 如何在AI时代成功转型 · 个人备注", "", "> 仅此浏览器备份导出，不是口播稿。", ""];
+    slides.forEach((s, idx) => {
+      const id = s.getAttribute("data-memo-id") || ("page-" + (idx + 1));
+      const title = s.dataset.title || ("第" + (idx + 1) + "页");
+      const body = memoStore.notes[id] || "";
+      lines.push("## " + (idx + 1) + ". " + title);
+      lines.push("");
+      lines.push(body || "_（本页无个人备注）_");
+      lines.push("");
+    });
+    const imgs = collectImageNotes();
+    const imgIds = Object.keys(imgs);
+    if (imgIds.length) {
+      lines.push("## 逐图备注");
+      lines.push("");
+      imgIds.forEach((id) => {
+        lines.push("### " + id);
+        lines.push("");
+        lines.push(imgs[id] || "_（无）_");
+        lines.push("");
+      });
+    }
+    downloadText("如何在AI时代成功转型-备注.md", lines.join("\n"), "text/markdown");
+    setMemoStatus("已导出 Markdown 文件，请自行保存");
+  }
+  function importJsonFile(file) {
+    const reader = new FileReader();
+    reader.onerror = () => setMemoStatus("导入失败：读不了这个文件。", true);
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(String(reader.result || ""));
+        const incoming = (data && typeof data.notes === "object" && data.notes) ? data.notes : data;
+        if (!incoming || typeof incoming !== "object") throw new Error("no notes");
+        let n = 0;
+        Object.keys(incoming).forEach((k) => {
+          if (typeof incoming[k] === "string") {
+            memoStore.notes[k] = incoming[k];
+            n += 1;
+          }
+        });
+        if (data && data.imageNotes && typeof data.imageNotes === "object") {
+          if (!memoStore.imageNotes) memoStore.imageNotes = {};
+          Object.keys(data.imageNotes).forEach((k) => {
+            if (typeof data.imageNotes[k] === "string") {
+              memoStore.imageNotes[k] = data.imageNotes[k];
+              n += 1;
+            }
+          });
+        }
+        if (!writeMemoStore()) return;
+        fillMemoUI();
+        setMemoStatus("已导入 " + n + " 条并写入此浏览器");
+      } catch (err) {
+        setMemoStatus("导入失败：文件不是有效的备注 JSON。", true);
+      }
+    };
+    reader.readAsText(file, "utf-8");
+  }
+
+
+  const tocPanel = document.getElementById("tocPanel");
+  const tocList = document.getElementById("tocList");
+  const btnToc = document.getElementById("btnToc");
+  const stageEl = document.querySelector(".stage");
+
+  function syncRail() {
+    const tocOpen = tocPanel.classList.contains("open");
+    const memoOpen = memoPanel.classList.contains("open");
+    stageEl.classList.toggle("rail-open", tocOpen || memoOpen);
+    stageEl.classList.toggle("rail-toc", tocOpen);
+    stageEl.classList.toggle("rail-memo", memoOpen);
+    btnToc.textContent = tocOpen ? "收起目录" : "目录";
+  }
+  function highlightToc() {
+    if (!tocList) return;
+    [...tocList.children].forEach((el, idx) => el.classList.toggle("on", idx === i));
+    const on = tocList.querySelector(".toc-item.on");
+    if (on) on.scrollIntoView({ block: "nearest" });
+  }
+  function openToc() {
+    if (memoPanel.classList.contains("open")) closeMemo();
+    tocPanel.classList.add("open");
+    syncRail();
+    highlightToc();
+  }
+  function closeToc() {
+    tocPanel.classList.remove("open");
+    syncRail();
+  }
+  function toggleToc() {
+    if (tocPanel.classList.contains("open")) closeToc();
+    else openToc();
+  }
+  slides.forEach((s, idx) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "toc-item" + (idx === 0 ? " on" : "");
+    const label = s.getAttribute("data-toc") || s.dataset.title || ("第" + (idx + 1) + "页");
+    b.innerHTML = "<span class=\"n\">" + String(idx + 1).padStart(2, "0") + "</span><span>" + label + "</span>";
+    b.addEventListener("click", () => {
+      if (lbOpen) closeLb();
+      go(idx);
+    });
+    tocList.appendChild(b);
+  });
+  btnToc.onclick = toggleToc;
+  document.getElementById("btnTocClose").onclick = closeToc;
+  syncRail();
+
+  memoStore = readMemoStore();
+  fillMemoUI();
+  btnMemo.onclick = toggleMemo;
+  document.getElementById("btnMemoClose").onclick = closeMemo;
+  document.getElementById("btnMemoExportJson").onclick = exportJson;
+  document.getElementById("btnMemoExportMd").onclick = exportMd;
+  document.getElementById("memoImport").addEventListener("change", (e) => {
+    const f = e.target.files && e.target.files[0];
+    e.target.value = "";
+    if (f) importJsonFile(f);
+  });
+  memoInput.addEventListener("input", () => {
+    memoStore.notes[memoId()] = memoInput.value;
+    clearTimeout(memoTimer);
+    memoTimer = setTimeout(() => { writeMemoStore(); }, 280);
+  });
+  if (lbNoteInput) {
+    lbNoteInput.addEventListener("input", () => {
+      if (!lbList[lbIdx]) return;
+      const id = lbList[lbIdx].getAttribute("data-img-note-id");
+      if (!id) return;
+      if (!memoStore.imageNotes) memoStore.imageNotes = {};
+      memoStore.imageNotes[id] = lbNoteInput.value;
+      clearTimeout(memoTimer);
+      memoTimer = setTimeout(() => { writeMemoStore(); }, 280);
+    });
+    lbNoteInput.addEventListener("keydown", (e) => {
+      if (["ArrowLeft", "ArrowRight", " ", "n", "N", "f", "F", "PageDown", "PageUp", "Enter", "Backspace", "Home", "End"].includes(e.key)) {
+        e.stopPropagation();
+      }
+    });
+  }
+  memoInput.addEventListener("keydown", (e) => {
+    if (["ArrowLeft", "ArrowRight", " ", "n", "N", "f", "F", "PageDown", "PageUp", "Enter", "Backspace", "Home", "End"].includes(e.key)) {
+      e.stopPropagation();
+    }
+  });
+
+
+  // projOpen hoisted
+  const projOverlay = document.getElementById("projOverlay");
+  const projFrame = document.getElementById("projFrame");
+  const projTitle = document.getElementById("projTitle");
+  function openProj(src, title) {
+    projTitle.textContent = title || "项目页面";
+    projFrame.src = src;
+    projOverlay.classList.add("show");
+    projOpen = true;
+  }
+  function closeProj() {
+    projOverlay.classList.remove("show");
+    projFrame.src = "about:blank";
+    projOpen = false;
+  }
+  document.querySelectorAll(".proj-btn").forEach((b) => {
+    b.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openProj(b.getAttribute("data-src"), b.getAttribute("data-proj-title"));
+    });
+  });
+  document.getElementById("projClose").onclick = closeProj;
+
+  window.addEventListener("keydown", (e) => {
+    const typing = e.target.closest("video, input, textarea, [contenteditable=true]");
+    if (typing) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        if (lbOpen) closeLb();
+        else if (memoPanel.classList.contains("open")) closeMemo();
+        else if (tocPanel.classList.contains("open")) closeToc();
+        else notesEl.classList.remove("show");
+      }
+      return;
+    }
+    if (lbOpen) {
+      if (["ArrowRight", "ArrowLeft", "Escape", " ", "PageDown", "PageUp"].includes(e.key)) e.preventDefault();
+      if (e.key === "ArrowRight" || e.key === "PageDown") lbNav(1);
+      if (e.key === "ArrowLeft" || e.key === "PageUp") lbNav(-1);
+      if (e.key === "Escape") closeLb();
+      return;
+    }
+    if (projOpen) {
+      if (e.key === "Escape") { e.preventDefault(); closeProj(); }
+      if (["ArrowRight", "ArrowLeft", " ", "PageDown", "PageUp", "Enter"].includes(e.key)) e.preventDefault();
+      return;
+    }
+    if (e.key === "Escape") {
+      if (memoPanel.classList.contains("open")) { closeMemo(); return; }
+      if (notesEl.classList.contains("show")) { notesEl.classList.remove("show"); return; }
+      if (tocPanel.classList.contains("open")) { closeToc(); return; }
+      return;
+    }
+    if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) { e.preventDefault(); go(i + 1); }
+    if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); go(i - 1); }
+    if (e.key === "f" || e.key === "F") {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+      else document.exitFullscreen?.();
+    }
+    if (e.key === "n" || e.key === "N") notesEl.classList.toggle("show");
+    if (e.key === "Home") go(0);
+    if (e.key === "End") go(slides.length - 1);
+  });
+
+  const params = new URLSearchParams(location.search);
+  const p = parseInt(params.get("p") || "", 10);
+  if (p >= 1 && p <= slides.length) go(p - 1);
+})();
+
+</script>
+</body>
+</html>
