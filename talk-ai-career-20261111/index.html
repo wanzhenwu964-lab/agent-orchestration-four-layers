@@ -1519,7 +1519,7 @@ html, body { background: var(--stage); color: var(--ink); }
   </div>
   <div class="cover-photo">
     <button class="pic" data-full="assets/portrait.jpg" data-caption="吴婉祯">
-      <img src="assets/portrait.jpg" alt="吴婉祯" />
+      <img src="assets/portrait.jpg" data-src="assets/portrait.jpg" fetchpriority="high" alt="吴婉祯" />
     </button>
     <div class="cover-fade" aria-hidden="true"></div>
   </div>
@@ -1529,19 +1529,19 @@ html, body { background: var(--stage); color: var(--ink); }
   <div class="sky-layout">
     <div class="sky-left">
       <button class="pic" style="--ar:4096/2730" data-full="assets/sky-campus.jpeg" data-caption="">
-        <img src="assets/sky-campus.jpeg" alt="校招相关界面拼图" />
+        <img src="assets/sky-campus.jpeg" data-src="assets/sky-campus.jpeg" fetchpriority="low" alt="校招相关界面拼图" />
       </button>
       <div class="sky-left-bottom">
         <button class="pic" style="--ar:1440/1080" data-full="assets/sky-left-10.jpg" data-caption="">
-          <img src="assets/sky-left-10.jpg" alt="毕业典礼现场" />
+          <img src="assets/sky-left-10.jpg" data-src="assets/sky-left-10.jpg" fetchpriority="low" alt="毕业典礼现场" />
         </button>
         <button class="pic" style="--ar:1920/2560" data-full="assets/sky-left-44.jpg" data-caption="">
-          <img src="assets/sky-left-44.jpg" alt="工牌与入职指引" />
+          <img src="assets/sky-left-44.jpg" data-src="assets/sky-left-44.jpg" fetchpriority="low" alt="工牌与入职指引" />
         </button>
       </div>
     </div>
     <button class="pic sky-main" style="--ar:2560/1920" data-full="assets/sky-afterwork.jpg" data-caption="">
-      <img src="assets/sky-afterwork.jpg" alt="下班后的天空" />
+      <img src="assets/sky-afterwork.jpg" data-src="assets/sky-afterwork.jpg" fetchpriority="low" alt="下班后的天空" />
     </button>
   </div>
   </div>
@@ -1552,33 +1552,33 @@ html, body { background: var(--stage); color: var(--ink); }
     <div class="food-row">
       <button class="pic pola" data-full="assets/food-01.jpg" data-caption="">
         <i class="tape"></i>
-        <img src="assets/food-01.jpg" alt="图片" />
+        <img data-src="assets/food-01.jpg" alt="图片" />
       </button>
       <button class="pic pola" data-full="assets/food-02.jpg" data-caption="">
         <i class="tape"></i>
-        <img src="assets/food-02.jpg" alt="图片" />
+        <img data-src="assets/food-02.jpg" alt="图片" />
       </button>
       <button class="pic pola" data-full="assets/food-03.jpg" data-caption="">
         <i class="tape"></i>
-        <img src="assets/food-03.jpg" alt="图片" />
+        <img data-src="assets/food-03.jpg" alt="图片" />
       </button>
       <button class="pic pola" data-full="assets/food-04.jpg" data-caption="">
         <i class="tape"></i>
-        <img src="assets/food-04.jpg" alt="图片" />
+        <img data-src="assets/food-04.jpg" alt="图片" />
       </button>
     </div>
     <div class="food-row">
       <button class="pic pola food-sq" data-full="assets/food-05.jpg" data-caption="">
         <i class="tape"></i>
-        <img src="assets/food-05.jpg" alt="图片" />
+        <img data-src="assets/food-05.jpg" alt="图片" />
       </button>
       <button class="pic pola" data-full="assets/food-06.jpg" data-caption="">
         <i class="tape"></i>
-        <img src="assets/food-06.jpg" alt="图片" />
+        <img data-src="assets/food-06.jpg" alt="图片" />
       </button>
       <button class="pic pola" data-full="assets/food-07.jpg" data-caption="">
         <i class="tape"></i>
-        <img src="assets/food-07.jpg" alt="图片" />
+        <img data-src="assets/food-07.jpg" alt="图片" />
       </button>
     </div>
   </div>
@@ -1590,28 +1590,28 @@ html, body { background: var(--stage); color: var(--ink); }
     <div class="office-cell" style="--fw:0.5625;--ar:1080/1920">
       <button class="pic pola shot" data-full="assets/office-desk.jpg" data-caption="" data-img-note-id="img-office-desk" data-img-note="人体工学升降桌，工位可以坐站切换。">
         <i class="tape"></i>
-        <img src="assets/office-desk.jpg" alt="人体工学升降桌" />
+        <img data-src="assets/office-desk.jpg" alt="人体工学升降桌" />
       </button>
       <button type="button" class="img-note-open" data-for-img="img-office-desk"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-note"/></svg>备注</button>
     </div>
     <div class="office-cell" style="--fw:0.75;--ar:1440/1920">
       <button class="pic pola shot" data-full="assets/office-gym.jpg" data-caption="" data-img-note-id="img-office-gym" data-img-note="公司健身房，不是工位或办公区。">
         <i class="tape"></i>
-        <img src="assets/office-gym.jpg" alt="公司健身房" />
+        <img data-src="assets/office-gym.jpg" alt="公司健身房" />
       </button>
       <button type="button" class="img-note-open" data-for-img="img-office-gym"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-note"/></svg>备注</button>
     </div>
     <div class="office-cell" style="--fw:0.75;--ar:1080/1440">
       <button class="pic pola shot" style="--rot:1deg" data-full="assets/office-mac.jpg" data-caption="" data-img-note-id="img-office-mac" data-img-note="入职时发放的 Mac 电脑和大礼包。">
         <i class="tape"></i>
-        <img src="assets/office-mac.jpg" alt="入职 Mac 大礼包" />
+        <img data-src="assets/office-mac.jpg" alt="入职 Mac 大礼包" />
       </button>
       <button type="button" class="img-note-open" data-for-img="img-office-mac"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-note"/></svg>备注</button>
     </div>
     <div class="office-cell" style="--fw:0.8003;--ar:1122/1402">
       <button class="pic pola shot" style="--rot:-.6deg" data-full="assets/office-team.jpg" data-caption="" data-img-note-id="img-office-team" data-img-note="团建拼图：餐食、场地和集体合影。">
         <i class="tape"></i>
-        <img src="assets/office-team.jpg" alt="团建拼图" />
+        <img data-src="assets/office-team.jpg" alt="团建拼图" />
       </button>
       <button type="button" class="img-note-open" data-for-img="img-office-team"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-note"/></svg>备注</button>
     </div>
@@ -1624,17 +1624,17 @@ html, body { background: var(--stage); color: var(--ink); }
     <div class="beta-pics photo-row photo-row-3">
       <button class="pic pola shot" data-full="assets/doubao-car-redacted.jpg" data-caption="豆包汽车内测">
         <i class="tape"></i>
-        <img src="assets/doubao-car-redacted.jpg" alt="豆包汽车内测" />
+        <img data-src="assets/doubao-car-redacted.jpg" alt="豆包汽车内测" />
         <span class="cap">豆包汽车内测</span>
       </button>
       <button class="pic pola shot" data-full="assets/doubao-car-exterior.jpg" data-caption="豆包汽车">
         <i class="tape"></i>
-        <img src="assets/doubao-car-exterior.jpg" alt="豆包汽车" />
+        <img data-src="assets/doubao-car-exterior.jpg" alt="豆包汽车" />
         <span class="cap">豆包汽车</span>
       </button>
       <button class="pic pola shot" data-full="assets/doubao-phone.jpg" data-caption="豆包手机">
         <i class="tape"></i>
-        <img src="assets/doubao-phone.jpg" alt="豆包手机" />
+        <img data-src="assets/doubao-phone.jpg" alt="豆包手机" />
         <span class="cap">豆包手机</span>
       </button>
     </div>
@@ -1650,12 +1650,12 @@ html, body { background: var(--stage); color: var(--ink); }
     <div class="share-pics photo-row photo-row-2">
       <button class="pic pola shot" data-full="assets/share-zhang-profile.jpg" data-caption="张咋啦（公开主页）">
         <i class="tape"></i>
-        <img src="assets/share-zhang-profile.jpg" alt="张咋啦（公开主页）" />
+        <img data-src="assets/share-zhang-profile.jpg" alt="张咋啦（公开主页）" />
         <span class="cap">张咋啦（公开主页）</span>
       </button>
       <button class="pic pola shot" data-full="assets/share-zhang-event.jpg" data-caption="内部技术分享预告">
         <i class="tape"></i>
-        <img src="assets/share-zhang-event.jpg" alt="内部技术分享预告" />
+        <img data-src="assets/share-zhang-event.jpg" alt="内部技术分享预告" />
         <span class="cap">内部技术分享预告</span>
       </button>
     </div>
@@ -1681,12 +1681,12 @@ html, body { background: var(--stage); color: var(--ink); }
     <div class="pics g12">
       <button class="pic pola" data-full="assets/portrait.jpg" data-caption="婉祯">
         <i class="tape"></i>
-        <img src="assets/portrait.jpg" alt="婉祯" />
+        <img data-src="assets/portrait.jpg" alt="婉祯" />
         <span class="cap">婉祯</span>
       </button>
       <button class="pic pola" style="--rot:1deg" data-full="assets/badge.jpg" data-caption="入职那天">
         <i class="tape"></i>
-        <img src="assets/badge.jpg" alt="入职那天" />
+        <img data-src="assets/badge.jpg" alt="入职那天" />
         <span class="cap">入职那天</span>
       </button>
     </div>
@@ -1749,7 +1749,7 @@ html, body { background: var(--stage); color: var(--ink); }
 
 
 <!-- Added summary after page 30; detailed Q&A preserved below. -->
-<section class="slide qa48 qa48-review" data-memo-id="qa48-review" data-title="Q&amp;A｜四个问题，一起回顾" data-toc="Q&amp;A｜四个问题，一起回顾" data-notes=""><div class="kicker">Q&amp;A · 一起回顾</div><h2>四个问题，<span class="hl">一起回顾</span></h2><div class="qa48-list"><article class="qa48-row" style="--qa-delay:0.08s"><span class="qa48-number">01</span><h3>你在字节干什么？</h3><p>做 Seedance 模型效果评测与调优，把人的判断转化为优化反馈。</p></article><article class="qa48-row" style="--qa-delay:0.28s"><span class="qa48-number">02</span><h3>没有代码背景，可以转 AI 吗？难学吗？</h3><p>可以借助 AI 工具，从动手做项目、测试和修改开始。</p></article><article class="qa48-row" style="--qa-delay:0.48s"><span class="qa48-number">03</span><h3>只有高学历、AI 专业出身，才能入行吗？</h3><p>不是；学历只是筛选的一部分，还要看经验与能力能否解决岗位问题。</p></article><article class="qa48-row" style="--qa-delay:0.68s"><span class="qa48-number">04</span><h3>机会怎么发现、怎么投、怎么准备？</h3><p>先看真实招聘、选方向，再针对岗位投递，把项目经历讲透。</p></article></div></section>
+<section class="slide qa48 qa48-review" data-memo-id="qa48-review" data-title="高频Q&amp;A对" data-toc="高频Q&amp;A对" data-notes=""><h2>高频Q&amp;A对</h2><div class="qa48-list"><article class="qa48-row" style="--qa-delay:0.08s"><span class="qa48-number">01</span><h3>你在字节干什么？</h3><p>做 Seedance 模型效果评测与调优，把人的判断转化为优化反馈。</p></article><article class="qa48-row" style="--qa-delay:0.28s"><span class="qa48-number">02</span><h3>没有代码背景，可以转 AI 吗？难学吗？</h3><p>可以借助 AI 工具，从动手做项目、测试和修改开始。</p></article><article class="qa48-row" style="--qa-delay:0.48s"><span class="qa48-number">03</span><h3>只有高学历、AI 专业出身，才能入行吗？</h3><p>不是；学历只是筛选的一部分，还要看经验与能力能否解决岗位问题。</p></article><article class="qa48-row" style="--qa-delay:0.68s"><span class="qa48-number">04</span><h3>机会怎么发现、怎么投、怎么准备？</h3><p>先看真实招聘、选方向，再针对岗位投递，把项目经历讲透。</p></article></div></section>
 
 <section class="slide qa48 qa48-actions" data-memo-id="qa48-actions" data-title="带走这份行动清单" data-toc="带走这份行动清单" data-notes=""><div class="kicker">从听懂，到动手</div><h2>带走这份<span class="hl">行动清单</span></h2><div class="qa48-grid"><article class="qa48-task" style="--qa-delay:0.08s"><div class="qa48-task-top"><span class="qa48-check" aria-hidden="true"></span><span class="qa48-task-number">01</span></div><h3>看 JD，选方向</h3><p>找一批真实岗位，圈出反复出现的能力要求。</p></article><article class="qa48-task" style="--qa-delay:0.24s"><div class="qa48-task-top"><span class="qa48-check" aria-hidden="true"></span><span class="qa48-task-number">02</span></div><h3>盘点已有能力</h3><p>对照岗位要求，明确可用经验和需要补的能力。</p></article><article class="qa48-task" style="--qa-delay:0.40s"><div class="qa48-task-top"><span class="qa48-check" aria-hidden="true"></span><span class="qa48-task-number">03</span></div><h3>动手做真实项目</h3><p>借助 AI 工具，把想法做出来，再测试、修改。</p></article><article class="qa48-task" style="--qa-delay:0.56s"><div class="qa48-task-top"><span class="qa48-check" aria-hidden="true"></span><span class="qa48-task-number">04</span></div><h3>按岗位改简历</h3><p>把相关经历和项目放在前面，突出需求匹配。</p></article><article class="qa48-task" style="--qa-delay:0.72s"><div class="qa48-task-top"><span class="qa48-check" aria-hidden="true"></span><span class="qa48-task-number">05</span></div><h3>持续针对投递</h3><p>明确投递岗位，有意识地安排投递量。</p></article><article class="qa48-task" style="--qa-delay:0.88s"><div class="qa48-task-top"><span class="qa48-check" aria-hidden="true"></span><span class="qa48-task-number">06</span></div><h3>讲清项目并复盘</h3><p>讲清目标、分工、难点与解法，验证结果、总结经验。</p></article></div></section>
 
@@ -1765,21 +1765,21 @@ html, body { background: var(--stage); color: var(--ink); }
   <p class="lead">大家日常用到的产品和背后的模型，不是一回事。前两家对应的是视频模型，Gemini 这边对应的是图像模型。</p>
   <div class="model-grid">
     <div class="model-card">
-      <img src="assets/model-jimeng.png" alt="即梦" />
+      <img data-src="assets/model-jimeng.jpg" alt="即梦" />
       <div class="prod">即梦</div>
       <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-chevron"/></svg></div>
       <div class="mod">Seedance</div>
       <span class="tag-v">视频模型</span>
     </div>
     <div class="model-card">
-      <img src="assets/model-kling.png" alt="可灵" />
+      <img data-src="assets/model-kling.jpg" alt="可灵" />
       <div class="prod">可灵</div>
       <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-chevron"/></svg></div>
       <div class="mod">Kling</div>
       <span class="tag-v">视频模型</span>
     </div>
     <div class="model-card">
-      <img src="assets/model-gemini.png" alt="Gemini" />
+      <img data-src="assets/model-gemini.jpg" alt="Gemini" />
       <div class="prod">Gemini</div>
       <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-chevron"/></svg></div>
       <div class="mod">Nano Banana</div>
@@ -1812,7 +1812,7 @@ html, body { background: var(--stage); color: var(--ink); }
       <div class="win">
         <div class="win-bar" aria-hidden="true"><i></i><i></i><i></i></div>
         <button class="pic pola shot" data-full="assets/work-content.jpg" data-caption="评测对比打分（评论已遮）">
-          <img src="assets/work-content.jpg" alt="评测对比打分" />
+          <img data-src="assets/work-content.jpg" alt="评测对比打分" />
           <span class="cap">评测对比打分（评论已遮）</span>
         </button>
       </div>
@@ -1831,7 +1831,7 @@ html, body { background: var(--stage); color: var(--ink); }
     <div>
       <button class="pic pola shot" data-full="assets/rlhf-code.jpg" data-caption="调优模型 · RLHF 相关代码">
         <i class="tape"></i>
-        <img src="assets/rlhf-code.jpg" alt="调优模型 · RLHF 相关代码" />
+        <img data-src="assets/rlhf-code.jpg" alt="调优模型 · RLHF 相关代码" />
         <span class="cap">调优模型 · RLHF 相关代码</span>
       </button>
     </div>
@@ -1842,22 +1842,22 @@ html, body { background: var(--stage); color: var(--ink); }
   <div class="pics vibe-grid">
     <button class="pic pola shot" data-full="assets/vibe-01.jpg" data-caption="">
         <i class="tape"></i>
-        <img src="assets/vibe-01.jpg" alt="图片" />
+        <img data-src="assets/vibe-01.jpg" alt="图片" />
         
       </button>
 <button class="pic pola shot" data-full="assets/vibe-02.jpg" data-caption="">
         <i class="tape"></i>
-        <img src="assets/vibe-02.jpg" alt="图片" />
+        <img data-src="assets/vibe-02.jpg" alt="图片" />
         
       </button>
 <button class="pic pola shot" data-full="assets/vibe-03.jpg" data-caption="">
         <i class="tape"></i>
-        <img src="assets/vibe-03.jpg" alt="图片" />
+        <img data-src="assets/vibe-03.jpg" alt="图片" />
         
       </button>
 <button class="pic pola shot" data-full="assets/vibe-04.jpg" data-caption="">
         <i class="tape"></i>
-        <img src="assets/vibe-04.jpg" alt="图片" />
+        <img data-src="assets/vibe-04.jpg" alt="图片" />
         
       </button>
   </div>
@@ -1974,17 +1974,17 @@ html, body { background: var(--stage); color: var(--ink); }
   <div class="pics edu-row">
     <button class="pic pola shot" style="--ar:1080/1936" data-full="assets/edu-chat.jpg" data-caption="他人案例 · 沟通记录">
         <i class="tape"></i>
-        <img src="assets/edu-chat.jpg" alt="他人案例 · 沟通记录" />
+        <img data-src="assets/edu-chat.jpg" alt="他人案例 · 沟通记录" />
         <span class="cap">他人案例 · 沟通记录</span>
       </button>
     <button class="pic pola shot" style="--rot:.5deg;--ar:1179/1839" data-full="assets/edu-offer.jpg" data-caption="他人案例 · 录用通知书">
         <i class="tape"></i>
-        <img src="assets/edu-offer.jpg" alt="他人案例 · 录用通知书" />
+        <img data-src="assets/edu-offer.jpg" alt="他人案例 · 录用通知书" />
         <span class="cap">他人案例 · 录用通知书</span>
       </button>
     <button class="pic pola shot" style="--rot:-.6deg;--ar:1366/1738" data-full="assets/edu-resume.jpg" data-caption="他人案例 · 项目经历">
         <i class="tape"></i>
-        <img src="assets/edu-resume.jpg" alt="他人案例 · 项目经历" />
+        <img data-src="assets/edu-resume.jpg" alt="他人案例 · 项目经历" />
         <span class="cap">他人案例 · 项目经历</span>
       </button>
   </div>
@@ -2054,7 +2054,7 @@ html, body { background: var(--stage); color: var(--ink); }
   </div>
   <div class="cover-photo">
     <button class="pic" data-full="assets/w_garden.jpg" data-caption="园区一角">
-      <img src="assets/w_garden.jpg" alt="园区一角" />
+      <img data-src="assets/w_garden.jpg" alt="园区一角" />
     </button>
     <div class="cover-fade" aria-hidden="true"></div>
   </div>
@@ -2159,6 +2159,31 @@ html, body { background: var(--stage); color: var(--ink); }
   function pauseVideos() {
     document.querySelectorAll("video").forEach((v) => { try { v.pause(); } catch (e) {} });
   }
+  function armNearbyMedia() {
+    const want = {0: true};
+    want[i] = true;
+    if (i + 1 < slides.length) want[i + 1] = true;
+    Object.keys(want).forEach(function (key) {
+      const slide = slides[Number(key)];
+      if (!slide) return;
+      const current = Number(key) === i;
+      slide.querySelectorAll("img[data-src]").forEach(function (img) {
+        const src = img.getAttribute("data-src");
+        if (!src) return;
+        if (img.getAttribute("src") !== src) img.setAttribute("src", src);
+        img.setAttribute("fetchpriority", current ? "high" : "low");
+      });
+      slide.querySelectorAll(".vid-wrap[data-src]").forEach(function (wrap) {
+        const video = wrap.querySelector("video");
+        const src = wrap.getAttribute("data-src");
+        if (!video || !src || video.getAttribute("src") === src) return;
+        video.preload = "metadata";
+        video.setAttribute("src", src);
+        video.load();
+      });
+    });
+  }
+
   function go(n) {
     if (lbOpen) return;
     if (typeof projOpen !== "undefined" && projOpen) closeProj();
@@ -2166,6 +2191,7 @@ html, body { background: var(--stage); color: var(--ink); }
     pauseVideos();
     i = (n + slides.length) % slides.length;
     slides.forEach((s, k) => s.classList.toggle("active", k === i));
+    armNearbyMedia();
     [...dots.children].forEach((d, k) => d.classList.toggle("on", k === i));
     pageLabel.textContent = (i + 1) + " / " + slides.length;
     showNotes();
@@ -2509,6 +2535,8 @@ html, body { background: var(--stage); color: var(--ink); }
     renderLb();
   }
 
+  armNearbyMedia();
+
   document.querySelectorAll(".pic[data-full]").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -2553,8 +2581,6 @@ html, body { background: var(--stage); color: var(--ink); }
       wrap.addEventListener(ev, (e) => e.stopPropagation());
       video.addEventListener(ev, (e) => e.stopPropagation());
     });
-    video.setAttribute("src", src);
-    video.load();
     input.addEventListener("change", () => {
       const f = input.files && input.files[0];
       if (!f) return;
